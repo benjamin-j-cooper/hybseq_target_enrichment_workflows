@@ -5,7 +5,7 @@
 
 #### If using the scrips from this repository you must cite
 
-Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using transcriptomes and low-coverage genomes: improving accuracy and matrix occupancy for phylogenomics. Molecular Biology and Evolution. doi: 10.1093/molbev/msu245
+Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using transcriptomes and low-coverage genomes: improving accuracy and matrix occupancy for phylogenomics. Molecular Biology and Evolution. [doi:10.1093/molbev/msu245](https://doi.org/10.1093/molbev/msu245)
 
 Morales-Briones, D.F., G. Kadereit, D.T. Tefarikis, M.J. Moore, S.A. Smith, S.F. Brockington, A.Timoneda, W.C. Yim, J.C. Cushman, Y. Yang. 2019. Disentangling Sources of Gene Tree Discordance in Phylotranscriptomic Datasets: A Case Study from Amaranthaceae s.l. bioRxiv 794370.
 
@@ -58,7 +58,7 @@ ACCC....
 \>Alchemilla_colura@paralog_1  
 ACCG....  
 
-For details of SPAdpes contigs see [HybPiper's paralog description](https://github.com/mossmatters/HybPiper/wiki/Paralogs)
+#####For details of SPAdes contigs see [HybPiper's paralog description](https://github.com/mossmatters/HybPiper/wiki/Paralogs)
 
 
 If other additional sequences are added to the fasta files (e.g. from reference genomes) make sure that those also have the "@" format.
@@ -95,7 +95,7 @@ If there are frame shifts in the alignments, Macse will replace the shifted codo
  	python mafft_wrapper.py <fasta files directory> <fasta file extension> <# of threads> <dna or aa>
  	
  	
-##### To trim alignments run
+##### Trim alignments with Phix
 
 	python pxclsq_wrapper.py <alignment directory > <mininum column occupancy> <dna or aa>
 	
@@ -130,6 +130,9 @@ It outputs the tips that were trimmed in the file .txt and the trimmed trees in 
 
 
 ## Step 3: Paralogy pruning to infer orthologs. Use one of the following
+
+
+##### For details of orthology inference refer to Yang, Y. and S.A. Smith. 2014. [doi:10.1093/molbev/msu245](https://doi.org/10.1093/molbev/msu245)
 
 
 ##### 1to1: only look at homologs that are strictly one-to-one. No cutting is carried out.
