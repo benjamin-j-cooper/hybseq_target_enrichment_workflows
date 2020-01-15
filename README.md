@@ -26,7 +26,7 @@ Morales-Briones, D.F., G. Kadereit, D.T. Tefarikis, M.J. Moore, S.A. Smith, S.F.
 
 ### Step 1: Format paralog fasta files
 
-#### **This example if for the output of 'paralog_investigator' of [HybPiper](https://github.com/mossmatters/HybPiper/wiki/Paralogs)**
+#### **This example is for the output of 'paralog_investigator' of [HybPiper](https://github.com/mossmatters/HybPiper/wiki/Paralogs)**
 
 To use the script from [Phylogenomic dataset construction respository](https://bitbucket.org/yangya/phylogenomic_dataset_construction/src/master/) an "@" symbol needs to be added to identify paralogs of the same sample.
 
@@ -41,7 +41,7 @@ ACCC....
 \>Alchemilla_colura.1 NODE_1_length_2101_cov_47.514174,Fragaria-gene15996_1557_01,0,519,79.11,(+),136,1687  
 ACCG....  
 
-To format the sequences run the next loop in the folder with the fasta files:
+To format the sequences run the next loop in the folder with the fasta files: (Note: This command will overwrite the fasta files)
 
 	for i in $(ls *.fasta); do
 	sed -i -E 's/(>.+)\.(.+)\s(.+)/\1@paralog_\2/‘ $i
@@ -59,9 +59,20 @@ ACCC....
 \>Alchemilla_colura@paralog_1  
 ACCG....  
 
-For details of SPAdpes contigs see [HybPiper](https://github.com/mossmatters/HybPiper/wiki/Paralogs)
+For details of SPAdpes contigs see [HybPiper paralog description](https://github.com/mossmatters/HybPiper/wiki/Paralogs)
 
 
 If other additional sequences are added to the fasta files (e.g. from reference genomes) make sure that those also have the "@" format.
 
 I added reference sequences of *Fragaria vesca* as Fragaria_vesca@genome
+
+## Step 2: Build homolog trees
+
+I used Macse for the alignment. Macse does not have multithread running options, wrote individual running bash commands to run them in parallel
+
+	for filename in $(ls *.fasta)
+	do
+	echo java -jar ~/Apps/macse_v2.03.jar -prog alignSequences -seq $filename -out_NT $(cut -d'.' -f1 <<<"$filename").NT.aln -out_AA $(cut -d'.' -f1 <<<"$filename").AA.aln > $(cut -d'.' -f1 <<<"$filename").sh
+	done  
+
+	parallel -j 32 bash ::: *.sh
