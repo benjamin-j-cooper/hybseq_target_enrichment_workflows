@@ -33,7 +33,6 @@ To use the script from [Phylogenomic dataset construction respository](https://b
 The fasta files *.paralogs.fasta after running 'paralog_investigator' have a format from [SPAdes](http://cab.spbu.ru/software/spades/) like:
 
 \>Rosa_woodsii
-
 AGTC...
 
 \>Lachemilla_pinnata.0 NODE_2_length_1787_cov_230.693567,Fragaria-gene15996_1557_01,4,519,78.47,(+),1,1537
@@ -55,19 +54,15 @@ To format the sequences run the next loop in the folder with the fasta files:
 The output of this will be
 
 \>Rosa_woodsii@unique
-
 AGTC...
 
 \>Lachemilla_pinnata@paralog_0
-
 ACGT.....
 
 \>Alchemilla_colura@paralog_main
-
 ACCC....
 
 \>Alchemilla_colura@paralog_1
-
 ACCG....
 
 For details of SPAdpes contigs see [HybPiper](https://github.com/mossmatters/HybPiper/wiki/Paralogs)
