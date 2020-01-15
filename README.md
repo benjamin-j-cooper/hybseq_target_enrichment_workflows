@@ -90,41 +90,41 @@ If there are frame shifts in the alignments Macse will replace the shifted codon
 	python remove_shifted_codons_from_macse.py <alignment directory> <fasta file extension> <output directory> <nt or aa>
 		
 	
-#Alternatively, Mafft can be used for the alignment
+##### Alternatively, Mafft can be used for the alignment
 
  	python mafft_wrapper.py <fasta files directory> <fasta file extension> <# of threads> <dna or aa>
  	
  	
-#To trim alignments run:
+##### To trim alignments run:
 
 	python pxclsq_wrapper.py <alignment directory > <mininum column occupancy> <dna or aa>
 	
 The output will files with extension .aln-cln
 
 
-#Infer ML trees with RAxML
+##### Infer ML trees with RAxML
 
 	python raxml_bs_wrapper.py <aln-cln files directory> <# of threads> <dna or aa>
 	
 
-#Mask both mono- and (optional) paraphyletic tips that belong to the same taxon. Keep the tip that has the most un-ambiguous charactors in the trimmed alignment.
+##### Mask both mono- and (optional) paraphyletic tips that belong to the same taxon. Keep the tip that has the most un-ambiguous charactors in the trimmed alignment.
 
 	python mask_tips_by_taxonID_transcripts.py <tre files directory> <aln-cln files directory> mask_paraphyletic <y or n>
 	
 
-#Alternatively, to remove only monophyletic tips and keep the sequence with the shortest terminal branch length.
+##### Alternatively, to remove only monophyletic tips and keep the sequence with the shortest terminal branch length.
 
 	python mask_tips_by_taxonID_genomes.py <tre files directory>
 	
 
-#Trim spurious tips with [TreeShrink](https://github.com/uym2/TreeShrink)
+##### Trim spurious tips with [TreeShrink](https://github.com/uym2/TreeShrink)
 
 	python tree_shrink_wrapper.py <input directory> <tree file extension> <quantile>
 
 It outputs the tips that were trimmed in the file .txt and the trimmed trees in the files .tt. You would need to test different quantiles to see which one fit better your data. 
 
 
-#These are you final homologs trees. If you want to repeat the tree inference, masking and trimming you write fasta files form the trimmed trees, or just re-infer homologs trees without removed tips. Write fasta files from trimmed trees. 
+##### These are you final homologs trees. If you want to repeat the tree inference, masking and trimming you write fasta files form the trimmed trees, or just re-infer homologs trees without removed tips. Write fasta files from trimmed trees. 
 
 	python write_ortholog_fasta_from_multiple_aln.py <original fasta files directory> <trimmed trees directory> <fasta file extension> <tree file extension> <output directory>
 
@@ -132,27 +132,27 @@ It outputs the tips that were trimmed in the file .txt and the trimmed trees in 
 ## Step 3: Paralogy pruning to infer orthologs. Use one of the following:
 
 
-#1to1: only look at homologs that are strictly one-to-one. No cutting is carried out.
+##### 1to1: only look at homologs that are strictly one-to-one. No cutting is carried out.
 	
 	python filter_1to1_orthologs.py <final homologs directory> <tree file extension> <minimal number of taxa> <output directory>
 
 
-#MI: prune by maximum inclusion.  Set OUTPUT_1to1_ORTHOLOGS to False if wish only to ouput orthologs that is not 1-to-1, for example, when 1-to-1 orthologs have already been analyzed in previous steps.
+##### MI: prune by maximum inclusion.  Set OUTPUT_1to1_ORTHOLOGS to False if wish only to ouput orthologs that is not 1-to-1, for example, when 1-to-1 orthologs have already been analyzed in previous steps.
 
 	python prune_paralogs_MI.py <final homologs directory> <tree file extension> <relative long tip cutoff> <absolute long tip cutoff> <minimal number of taxa> <output directory>
 
 
-#MO: prune by using homologs with monophyletic, non-repeating outgroups, reroot and cut paralog from root to tip. If no outgroup, only use those that do not have duplicated taxa. Change the list of ingroup and outgroup names first. Set OUTPUT_1to1_ORTHOLOGS to False if wish only to ouput orthologs that is not 1-to-1
+##### MO: prune by using homologs with monophyletic, non-repeating outgroups, reroot and cut paralog from root to tip. If no outgroup, only use those that do not have duplicated taxa. Change the list of ingroup and outgroup names first. Set OUTPUT_1to1_ORTHOLOGS to False if wish only to ouput orthologs that is not 1-to-1
 
 	python prune_paralogs_MO.py <final homologs directory> <tree file extension> <minimal number of taxa> <output directory>
 
 
-#RT: prune by extracting ingroup clades and then cut paralogs from root to tip. If no outgroup, only use those that do not have duplicated taxa. Compile a list of ingroup and outgroup taxonID, with each line begin with either "IN" or "OUT", followed by a tab, and then the taxonID.
+##### RT: prune by extracting ingroup clades and then cut paralogs from root to tip. If no outgroup, only use those that do not have duplicated taxa. Compile a list of ingroup and outgroup taxonID, with each line begin with either "IN" or "OUT", followed by a tab, and then the taxonID.
 
 	python prune_paralogs_RT.py <final homologs directory> <tree file extension> <output directory>  <minimal number of taxa> <ingroup and outgroup taxonIDs table>
 
 
-#Or alternatively, if the input homolog tree is already rooted:
+##### Or alternatively, if the input homolog tree is already rooted:
 
 	python prune_paralogs_from_rooted_trees.py <final homologs directory> <tree file extension> <minimal number of taxa> <output directory>
 
@@ -162,7 +162,7 @@ It outputs the tips that were trimmed in the file .txt and the trimmed trees in 
 	python ortholog_occupancy_stats.py <orthologs directory>
 
 
-#Read in and rank number of taxa per ortholog from highest to lowest. Plot the ranked number of taxa per ortholog
+##### Read in and rank number of taxa per ortholog from highest to lowest. Plot the ranked number of taxa per ortholog
 
 	a <- as.numeric(read.table("ortho_stats")[1])
 	a <- sort(a, decreasing=TRUE)
@@ -171,15 +171,15 @@ It outputs the tips that were trimmed in the file .txt and the trimmed trees in 
 	dev.off()
 
 
-#Check taxon_stats to see if any taxa have unusally low number of genes in the orthologs. Open the file taxon_occupancy.pdf and decide the MIN_TAXA filter. Write new fasta files from ortholog trees
+##### Check taxon_stats to see if any taxa have unusally low number of genes in the orthologs. Open the file taxon_occupancy.pdf and decide the MIN_TAXA filter. Write new fasta files from ortholog trees
 
 	python write_ortholog_fasta_from_multiple_aln.py <original fasta files directory> <orthologs directory> <fasta file extension> <orthologs tree file extension> <output directory>
 	
 
-#With this you can align, clean, nfer trees from final orthologs, and infer species trees using your preferred tools
+##### With this you can align, clean, nfer trees from final orthologs, and infer species trees using your preferred tools
 
  
-#If a supermatrix of clean alignment is needed. Choose the minimal cleaned alignment length and minimal number of taxa of each ortholog to include in the supermatrix:
+##### If a supermatrix of clean alignment is needed. Choose the minimal cleaned alignment length and minimal number of taxa of each ortholog to include in the supermatrix:
 
 	python concatenate_matrices_phyx.py <aln-cln files directory> <minimum number of sites> <minimum number of taxa> <output directory>
 
