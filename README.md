@@ -23,7 +23,7 @@ Morales-Briones, D.F., G. Kadereit, D.T. Tefarikis, M.J. Moore, S.A. Smith, S.F.
 [macse](https://bioweb.supagro.inra.fr/macse/index.php?menu=releases) Version 2.0.3 (newer versions should work)
 
 
-### Step 1: Format paralog fasta files
+## Step 1: Format paralog fasta files
 
 #### **This example is for the output of 'paralog_investigator' of [HybPiper](https://github.com/mossmatters/HybPiper/wiki/Paralogs)**
 
