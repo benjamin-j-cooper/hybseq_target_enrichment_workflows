@@ -64,4 +64,4 @@ For details of SPAdpes contigs see [HybPiper](https://github.com/mossmatters/Hyb
 
 If other additional sequences are added to the fasta files (e.g. from reference genomes) make sure that those also have the "@" format.
 
-I added reference sequences of <em>Fragaria vesca</em> as Fragaria_vesca@genome
+I added reference sequences of *Fragaria vesca* as Fragaria_vesca@genome
