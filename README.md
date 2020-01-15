@@ -186,7 +186,7 @@ It outputs the tips that were trimmed in the file .txt and the trimmed trees in 
 
 	python concatenate_matrices_phyx.py <aln-cln files directory> <minimum number of sites> <minimum number of taxa> <output directory>
 
-This will output a list of cleaned orthology alignments that passed the filter, a summary of taxon matrix occupancies to check whether any taxon is under represented, and a concatenated matrix in phylip and nexus format
+This will output a list of cleaned orthology alignments that passed the filter, a summary of taxon matrix occupancies to check whether any taxon is under represented, and a concatenated matrix in fasta, phylip, and nexus format as well as a partition file for RAxML or IQtree.
 
 
 
