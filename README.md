@@ -34,11 +34,11 @@ The fasta files *.paralogs.fasta after running 'paralog_investigator' have a for
 
 \>Rosa_woodsii
 AGTC...
->Lachemilla_pinnata.0 NODE_2_length_1787_cov_230.693567,Fragaria-gene15996_1557_01,4,519,78.47,(+),1,1537
+\>Lachemilla_pinnata.0 NODE_2_length_1787_cov_230.693567,Fragaria-gene15996_1557_01,4,519,78.47,(+),1,1537
 ACGT.....
->Alchemilla_colura.main NODE_3_length_1706_cov_62.896426,Fragaria-gene15996_1557_01,0,517,81.43,(-),1552,1
+\>Alchemilla_colura.main NODE_3_length_1706_cov_62.896426,Fragaria-gene15996_1557_01,0,517,81.43,(-),1552,1
 ACCC....
->Alchemilla_colura.1 NODE_1_length_2101_cov_47.514174,Fragaria-gene15996_1557_01,0,519,79.11,(+),136,1687
+\>Alchemilla_colura.1 NODE_1_length_2101_cov_47.514174,Fragaria-gene15996_1557_01,0,519,79.11,(+),136,1687
 ACCGG....
 
 To format the sequences run the next loop in the folder with the fasta files:
@@ -52,11 +52,11 @@ The output of this will be
 
 \>Rosa_woodsii@unique
 AGTC...
->Lachemilla_pinnata@paralog_0
+\>Lachemilla_pinnata@paralog_0
 ACGT.....
->Alchemilla_colura@paralog_main
+\>Alchemilla_colura@paralog_main
 ACCC....
->Alchemilla_colura@paralog_1
+\>Alchemilla_colura@paralog_1
 ACCGG....
 
 For details of SPAdpes contigs see [HybPiper](https://github.com/mossmatters/HybPiper/wiki/Paralogs)
