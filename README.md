@@ -68,11 +68,15 @@ I added reference sequences of *Fragaria vesca* as Fragaria_vesca@genome
 
 ## Step 2: Build homolog trees
 
-I used Macse for the alignment. Macse does not have multithread running options, wrote individual running bash commands to run them in parallel
+I used Macse for the alignment. Macse does not have multithread running options, wrote individual running bash files to run them in parallel.
+
+To write bash files
 
 	for filename in $(ls *.fasta)
 	do
 	echo java -jar ~/Apps/macse_v2.03.jar -prog alignSequences -seq $filename -out_NT $(cut -d'.' -f1 <<<"$filename").NT.aln -out_AA $(cut -d'.' -f1 <<<"$filename").AA.aln > $(cut -d'.' -f1 <<<"$filename").sh
 	done  
+
+To run alignment runs in parallel
 
 	parallel -j 32 bash ::: *.sh
