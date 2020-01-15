@@ -54,15 +54,19 @@ To format the sequences run the next loop in the folder with the fasta files:
 The output of this will be
 
 \>Rosa_woodsii@unique
+
 AGTC...
 
 \>Lachemilla_pinnata@paralog_0
+
 ACGT.....
 
 \>Alchemilla_colura@paralog_main
+
 ACCC....
 
 \>Alchemilla_colura@paralog_1
+
 ACCG....
 
 For details of SPAdpes contigs see [HybPiper](https://github.com/mossmatters/HybPiper/wiki/Paralogs)
