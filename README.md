@@ -40,7 +40,7 @@ ACCC....
 \>Alchemilla_colura.1 NODE_1_length_2101_cov_47.514174,Fragaria-gene15996_1557_01,0,519,79.11,(+),136,1687  
 ACCG....  
 
-# To format the sequences run the next loop in the folder with the fasta files: (Note: This command will overwrite the fasta files)
+##### To format the sequences run the next loop in the folder with the fasta files: (Note: This command will overwrite the fasta files)
 
 	for i in $(ls *.fasta); do
 	sed -i -E 's/(>.+)\.(.+)\s(.+)/\1@paralog_\2/‘ $i
@@ -70,7 +70,7 @@ I added reference sequences of *Fragaria vesca* as Fragaria_vesca@genome
 
 I used Macse for the dna alignment. Macse does not have multithread running options, so I wrote individual running bash files to run them in parallel.
 
-# To write bash files
+##### To write bash files
 
 	for filename in $(ls *.fasta)
 	do
@@ -78,14 +78,14 @@ I used Macse for the dna alignment. Macse does not have multithread running opti
 	done  
 
 
-# To run alignment runs in parallel
+##### To run alignment runs in parallel
 
 	parallel -j 32 bash ::: *.sh
 
 If there are frame shifts in the alignments Macse will replace the shifted codons with "!" and will cause problems with RAxML or IQtree. 
 
 
-#To replace "!" codon with gaps run:
+##### To replace "!" codon with gaps run:
 
 	python remove_shifted_codons_from_macse.py <alignment directory> <fasta file extension> <output directory> <nt or aa>
 		
