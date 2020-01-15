@@ -10,7 +10,7 @@ Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using 
 Morales-Briones, D.F., G. Kadereit, D.T. Tefarikis, M.J. Moore, S.A. Smith, S.F. Brockington, A.Timoneda, W.C. Yim, J.C. Cushman, Y. Yang. 2019. Disentangling Sources of Gene Tree Discordance in Phylotranscriptomic Datasets: A Case Study from Amaranthaceae s.l. bioRxiv 794370.
 
 
-## Dependencies needed to run the scripts. 
+### Dependencies needed to run the scripts. 
 
 [TreeShrink](https://github.com/uym2/TreeShrink) It works now with Version 1.3.2 (older versions won't work)
 
