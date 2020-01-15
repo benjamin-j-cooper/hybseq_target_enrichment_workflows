@@ -3,7 +3,7 @@
 
 #### This repository contains scripts for orthology in inference from target enrichment data (e.g. Hyb-Seq) and relies mainly in scripts from [Phylogenomic dataset construction respository](https://bitbucket.org/yangya/phylogenomic_dataset_construction/src/master/) plus some additional ones.
 
-#### If using the scrips from this repository you must cite:
+#### If using the scrips from this repository you must cite
 
 Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using transcriptomes and low-coverage genomes: improving accuracy and matrix occupancy for phylogenomics. Molecular Biology and Evolution. doi: 10.1093/molbev/msu245
 
@@ -27,9 +27,9 @@ Morales-Briones, D.F., G. Kadereit, D.T. Tefarikis, M.J. Moore, S.A. Smith, S.F.
 
 #### **This example is for the output of 'paralog_investigator' of [HybPiper](https://github.com/mossmatters/HybPiper/wiki/Paralogs)**
 
-To use the script from [Phylogenomic dataset construction respository](https://bitbucket.org/yangya/phylogenomic_dataset_construction/src/master/) an "@" symbol needs to be added to identify paralogs of the same sample.
+To use the script from [Phylogenomic dataset construction respository](https://bitbucket.org/yangya/phylogenomic_dataset_construction/src/master/) an "@" symbol needs to be added in the fasta headers to identify paralogs of the same sample.
 
-The fasta files *.paralogs.fasta after running 'paralog_investigator' have a format from [SPAdes](http://cab.spbu.ru/software/spades/) like:
+The fasta files *.paralogs.fasta after running 'paralog_investigator' have a format from [SPAdes](http://cab.spbu.ru/software/spades/) like
 
 \>Rosa_woodsii  
 AGTC...  
@@ -40,7 +40,7 @@ ACCC....
 \>Alchemilla_colura.1 NODE_1_length_2101_cov_47.514174,Fragaria-gene15996_1557_01,0,519,79.11,(+),136,1687  
 ACCG....  
 
-##### To format the sequences run the next loop in the folder with the fasta files: (Note: This command will overwrite the fasta files)
+##### To format the sequences run the next loop in the directory where fasta files are locaded: (Note: This command will overwrite the fasta files)
 
 	for i in $(ls *.fasta); do
 	sed -i -E 's/(>.+)\.(.+)\s(.+)/\1@paralog_\2/‘ $i
@@ -58,7 +58,7 @@ ACCC....
 \>Alchemilla_colura@paralog_1  
 ACCG....  
 
-For details of SPAdpes contigs see [HybPiper paralog description](https://github.com/mossmatters/HybPiper/wiki/Paralogs)
+For details of SPAdpes contigs see [HybPiper's paralog description](https://github.com/mossmatters/HybPiper/wiki/Paralogs)
 
 
 If other additional sequences are added to the fasta files (e.g. from reference genomes) make sure that those also have the "@" format.
@@ -68,7 +68,7 @@ I added reference sequences of *Fragaria vesca* as Fragaria_vesca@genome
 
 ## Step 2: Build homolog trees
 
-I used Macse for the dna alignment. Macse does not have multithread running options, so I wrote individual running bash files to run them in parallel.
+I used Macse for the DNA alignment. Macse does not have multithread running options, so I wrote individual bash files to run them in parallel.
 
 ##### To write bash files
 
@@ -82,10 +82,10 @@ I used Macse for the dna alignment. Macse does not have multithread running opti
 
 	parallel -j 32 bash ::: *.sh
 
-If there are frame shifts in the alignments Macse will replace the shifted codons with "!" and will cause problems with RAxML or IQtree. 
+If there are frame shifts in the alignments, Macse will replace the shifted codons with "!" and will cause problems with RAxML or IQtree. 
 
 
-##### To replace "!" codon with gaps run:
+##### To replace "!" codon with gaps run
 
 	python remove_shifted_codons_from_macse.py <alignment directory> <fasta file extension> <output directory> <nt or aa>
 		
@@ -95,7 +95,7 @@ If there are frame shifts in the alignments Macse will replace the shifted codon
  	python mafft_wrapper.py <fasta files directory> <fasta file extension> <# of threads> <dna or aa>
  	
  	
-##### To trim alignments run:
+##### To trim alignments run
 
 	python pxclsq_wrapper.py <alignment directory > <mininum column occupancy> <dna or aa>
 	
@@ -124,12 +124,12 @@ The output will files with extension .aln-cln
 It outputs the tips that were trimmed in the file .txt and the trimmed trees in the files .tt. You would need to test different quantiles to see which one fit better your data. 
 
 
-##### These are you final homologs trees. If you want to repeat the tree inference, masking and trimming you write fasta files form the trimmed trees, or just re-infer homologs trees without removed tips. Write fasta files from trimmed trees. 
+##### These are you final homologs trees. If you want to repeat the tree inference, masking, and trimming or just re-infer homologs trees without removed tips. Write fasta files from trimmed trees. 
 
 	python write_ortholog_fasta_from_multiple_aln.py <original fasta files directory> <trimmed trees directory> <fasta file extension> <tree file extension> <output directory>
 
 
-## Step 3: Paralogy pruning to infer orthologs. Use one of the following:
+## Step 3: Paralogy pruning to infer orthologs. Use one of the following
 
 
 ##### 1to1: only look at homologs that are strictly one-to-one. No cutting is carried out.
@@ -152,7 +152,7 @@ It outputs the tips that were trimmed in the file .txt and the trimmed trees in 
 	python prune_paralogs_RT.py <final homologs directory> <tree file extension> <output directory>  <minimal number of taxa> <ingroup and outgroup taxonIDs table>
 
 
-##### Or alternatively, if the input homolog tree is already rooted:
+##### Or alternatively, if the input homolog tree is already rooted
 
 	python prune_paralogs_from_rooted_trees.py <final homologs directory> <tree file extension> <minimal number of taxa> <output directory>
 
@@ -171,7 +171,7 @@ It outputs the tips that were trimmed in the file .txt and the trimmed trees in 
 	dev.off()
 
 
-##### Check taxon_stats to see if any taxa have unusally low number of genes in the orthologs. Open the file taxon_occupancy.pdf and decide the MIN_TAXA filter. Write new fasta files from ortholog trees
+##### Check taxon_stats to see if any taxa have unusally low number of genes in the orthologs and decide the minimum number of taxa for the supermatrix. Write new fasta files from ortholog trees
 
 	python write_ortholog_fasta_from_multiple_aln.py <original fasta files directory> <orthologs directory> <fasta file extension> <orthologs tree file extension> <output directory>
 	
@@ -179,7 +179,7 @@ It outputs the tips that were trimmed in the file .txt and the trimmed trees in 
 ##### With this you can align, clean, nfer trees from final orthologs, and infer species trees using your preferred tools
 
  
-##### If a supermatrix of clean alignment is needed. Choose the minimal cleaned alignment length and minimal number of taxa of each ortholog to include in the supermatrix:
+##### If a supermatrix of clean alignment is needed. Choose the minimal cleaned alignment length and minimal number of taxa of each ortholog to include in the supermatrix
 
 	python concatenate_matrices_phyx.py <aln-cln files directory> <minimum number of sites> <minimum number of taxa> <output directory>
 
