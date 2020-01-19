@@ -126,7 +126,7 @@ It outputs the tips that were trimmed in the file .txt and the trimmed trees in 
 
 ##### These are you final homologs trees. If you want to repeat the tree inference, masking, and trimming or just re-infer homologs trees without removed tips. Write fasta files from trimmed trees. 
 
-	python write_ortholog_fasta_from_multiple_aln.py <original fasta files directory> <trimmed trees directory> <fasta file extension> <tree file extension> <output directory>
+	python write_homolog_fasta_from_multiple_aln.py <original fasta files directory> <trimmed trees directory> <fasta file extension> <tree file extension> <output directory>
 
 
 ## Step 3: Paralogy pruning to infer orthologs. Use one of the following
