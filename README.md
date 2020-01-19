@@ -85,7 +85,7 @@ I used Macse for DNA alignment. Macse does not have multithread running options,
 If there are frame shifts in the alignments, Macse will replace the shifted codons with "!" and will cause problems with RAxML or IQtree. 
 
 
-##### To replace "!" codon with gaps run
+##### To replace "!" codon with gaps
 
 	python remove_shifted_codons_from_macse.py <alignment directory> <fasta file extension> <output directory> <nt or aa>
 		
