@@ -132,7 +132,7 @@ It outputs the tips that were trimmed in the file .txt and the trimmed trees in 
 ## Step 3: Paralogy pruning to infer orthologs. Use one of the following
 
 
-##### For details of orthology inference refer to Yang and Smith (2014) [doi:10.1093/molbev/msu245](https://doi.org/10.1093/molbev/msu245)
+#### For details of orthology inference refer to Yang and Smith (2014) [doi:10.1093/molbev/msu245](https://doi.org/10.1093/molbev/msu245)
 
 
 ##### 1to1: only look at homologs that are strictly one-to-one. No cutting is carried out.
