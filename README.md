@@ -68,7 +68,7 @@ I added reference sequences of *Fragaria vesca* as Fragaria_vesca@genome
 
 ## Step 2: Build homolog trees
 
-I used Macse for the DNA alignment. Macse does not have multithread running options, so I wrote individual bash files to run them in parallel.
+I used Macse for DNA alignment. Macse does not have multithread running options, so I wrote individual bash files to run them in parallel.
 
 ##### To write bash files
 
