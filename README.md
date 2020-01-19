@@ -58,7 +58,7 @@ ACCC....
 \>Alchemilla_colura@paralog_1  
 ACCG....  
 
-##### For details of SPAdes contigs see [HybPiper's paralog description](https://github.com/mossmatters/HybPiper/wiki/Paralogs)
+##### For details of SPAdes contigs see [HybPiper's paralogs description](https://github.com/mossmatters/HybPiper/wiki/Paralogs)
 
 
 If other additional sequences are added to the fasta files (e.g. from reference genomes) make sure that those also have the "@" format.
