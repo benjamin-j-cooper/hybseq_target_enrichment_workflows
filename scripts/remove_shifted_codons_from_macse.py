@@ -65,7 +65,7 @@ def aa(inDIR, file_ending, outDIR):
 	
 	filecount = 0
 
-	aa_shiflt_array = ["!", "*",]
+	aa_shiflt_array = ["!", "*"]
 	
 	for i in os.listdir(inDIR):
 		if i.endswith(file_ending):
@@ -77,7 +77,7 @@ def aa(inDIR, file_ending, outDIR):
 			aln = SeqIO.parse(inDIR+i, "fasta")
 			file=open(new_aln,'w')
 			for record in aln:
-				if "!" in record.seq:
+				if "!" or "*" in record.seq:
 					tempRecordSeq = list(record.seq)
 					for index in range(0, len(record.seq), 1):
 						aa = record.seq[index:index+1]
