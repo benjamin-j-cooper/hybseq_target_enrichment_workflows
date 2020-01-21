@@ -22,7 +22,7 @@ def raxml_bs(DIR,cleaned,num_cores,seqtype,replicates=100):
 		infasta = cleaned if DIR == "./" else DIR+cleaned
 		cmd = ["raxml","-T",str(num_cores),\
 			   "-f","a","-x","12345","-#",str(replicates),\
-			   "-p","12345","-s",infasta,"-n",cleaned,"-m",model,]
+			   "-p","12345","-s",infasta,"-n",cleaned,"-m",model]
 		print " ".join(cmd)
 		p = subprocess.Popen(cmd,stdout=subprocess.PIPE)
 		p.communicate()

@@ -7,7 +7,7 @@
 
 Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using transcriptomes and low-coverage genomes: improving accuracy and matrix occupancy for phylogenomics. Molecular Biology and Evolution. [doi:10.1093/molbev/msu245](https://doi.org/10.1093/molbev/msu245)
 
-Morales-Briones, D.F., G. Kadereit, D.T. Tefarikis, M.J. Moore, S.A. Smith, S.F. Brockington, A.Timoneda, W.C. Yim, J.C. Cushman, Y. Yang. 2019. Disentangling Sources of Gene Tree Discordance in Phylotranscriptomic Datasets: A Case Study from Amaranthaceae s.l. bioRxiv 794370.
+Morales-Briones, D.F., et al. (in prep). Phylogenomics of Alchemilla s.l. (Rosaceae)
 
 
 ### Dependencies needed to run the scripts. 
@@ -95,18 +95,23 @@ If there are frame shifts in the alignments, Macse will replace the shifted codo
  	python mafft_wrapper.py <fasta files directory> <fasta file extension> <# of threads> <dna or aa>
  	
  	
-##### Trim alignments with Phix
+##### Trim alignments with Phyx
 
 	python pxclsq_wrapper.py <alignment directory > <mininum column occupancy> <dna or aa>
 	
 The output will files with extension .aln-cln
 
 
-##### Infer ML trees with RAxML
+##### Infer ML trees with RAxML. This will infer trees with GTRGAMMA and 100 bootstrap replicates (different model and # of bs replicates can be modify in the script).  
 
 	python raxml_bs_wrapper.py <aln-cln files directory> <# of threads> <dna or aa>
 	
-
+	
+##### If no bs replicates are needed use. 
+	
+	python raxml_wrapper.py <aln-cln files directory> <# of threads> <dna or aa>
+	
+	
 ##### Mask both mono- and (optional) paraphyletic tips that belong to the same taxon. Keep the tip that has the most un-ambiguous charactors in the trimmed alignment.
 
 	python mask_tips_by_taxonID_transcripts.py <tre files directory> <aln-cln files directory> mask_paraphyletic <y or n>
