@@ -18,9 +18,9 @@ Morales-Briones, D.F., et al. (in prep). Phylogenomics of *Alchemilla* s.l. (Ros
 
 [Phyx](https://github.com/FePhyFoFum/phyx)
 
-[mafft](https://mafft.cbrc.jp/alignment/software/) Version 7.307 (newer versions should work)
+[MAFFT](https://mafft.cbrc.jp/alignment/software/) Version 7.307 (newer versions should work)
 
-[macse](https://bioweb.supagro.inra.fr/macse/index.php?menu=releases) Version 2.0.3 (newer versions should work)
+[MACSE](https://bioweb.supagro.inra.fr/macse/index.php?menu=releases) Version 2.0.3 (newer versions should work)
 
 
 ## Step 1: Format paralog fasta files
