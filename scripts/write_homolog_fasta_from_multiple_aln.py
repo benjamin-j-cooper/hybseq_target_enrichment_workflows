@@ -1,7 +1,6 @@
 """
 This script take a folder of fasta files and 
 write fasta files given a folder of trees 
-and a minimum number of species
 """
 
 import os, sys, glob
