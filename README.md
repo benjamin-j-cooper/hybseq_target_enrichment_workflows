@@ -7,7 +7,7 @@
 
 Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using transcriptomes and low-coverage genomes: improving accuracy and matrix occupancy for phylogenomics. Molecular Biology and Evolution. [doi:10.1093/molbev/msu245](https://doi.org/10.1093/molbev/msu245)
 
-Morales-Briones, D.F., et al. (in prep). Phylogenomics of Alchemilla s.l. (Rosaceae)
+Morales-Briones, D.F., et al. (in prep). Phylogenomics of *Alchemilla* s.l. (Rosaceae)
 
 
 ### Dependencies needed to run the scripts. 
