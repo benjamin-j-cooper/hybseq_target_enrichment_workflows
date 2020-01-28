@@ -179,11 +179,12 @@ It outputs the tips that were trimmed in the file .txt and the trimmed trees in 
 	dev.off()
 
 
-##### Check taxon_stats to see if any taxa have unusally low number of genes in the orthologs and decide the minimum number of taxa for the supermatrix. Write new fasta files from ortholog trees
+##### Check taxon_stats to see if any taxa have unusally low number of genes in the orthologs and decide the minimum number of taxa for the supermatrix. 
+
+##### Write new and final fasta files from ortholog trees
 
 	python write_ortholog_fasta_from_multiple_aln.py <original fasta files directory> <orthologs directory> <fasta file extension> <orthologs tree file extension> <output directory>
 	
-
 ##### With those you can align, clean, infer trees from final orthologs, and infer species trees using your preferred tools
 
  
