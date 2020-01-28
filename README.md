@@ -170,7 +170,7 @@ It outputs the tips that were trimmed in the file .txt and the trimmed trees in 
 	python ortholog_occupancy_stats.py <orthologs directory>
 
 
-##### Read in and rank number of taxa per ortholog from highest to lowest. Plot the ranked number of taxa per ortholog
+##### Read in and rank number of taxa per ortholog from highest to lowest. Plot in R the ranked number of taxa per ortholog
 
 	a <- as.numeric(read.table("ortho_stats")[1])
 	a <- sort(a, decreasing=TRUE)
