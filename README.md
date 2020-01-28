@@ -165,7 +165,7 @@ It outputs the tips that were trimmed in the file .txt and the trimmed trees in 
 	python prune_paralogs_from_rooted_trees.py <final homologs directory> <tree file extension> <minimal number of taxa> <output directory>
 
 
-## Step 4: Visualize matrix occupancy stats and constructing the supermatrix
+## Step 4: Visualize matrix occupancy stats, write final fasta files and build supermatrix (optional)
 
 	python ortholog_occupancy_stats.py <orthologs directory>
 
