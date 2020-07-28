@@ -1,7 +1,7 @@
 # Target enrichment orthology
 
 
-#### This repository contains scripts for orthology in inference from target enrichment data (e.g. Hyb-Seq) and relies mainly in scripts from [Phylogenomic dataset construction respository](https://bitbucket.org/yangya/phylogenomic_dataset_construction/src/master/) plus some additional ones.
+#### This repository contains scripts for orthology in inference from target enrichment data (e.g. Hyb-Seq) and relies mainly in scripts from [Phylogenomic dataset construction respository](https://bitbucket.org/yanglab/phylogenomic_dataset_construction/src/master/) plus some new ones.
 
 #### If using the scrips from this repository you must cite
 
