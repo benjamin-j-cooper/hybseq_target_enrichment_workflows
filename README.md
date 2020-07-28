@@ -5,9 +5,9 @@
 
 #### If using the scrips from this repository you must cite
 
-Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using transcriptomes and low-coverage genomes: improving accuracy and matrix occupancy for phylogenomics. Molecular Biology and Evolution. [doi:10.1093/molbev/msu245](https://doi.org/10.1093/molbev/msu245)
+Morales-Briones, D.F., B. Gehrke, C.H. Huang, A. Liston, H. Ma, H.E. Marx, D.C. Tank, Y. Yang. (in prep). Analysis of paralogs in target enrichment data pinpoints multiple ancient polyploidy events in Alchemilla s.l. (Rosaceae).
 
-Morales-Briones, D.F., et al. (in prep). Phylogenomics of *Alchemilla* s.l. (Rosaceae)
+Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using transcriptomes and low-coverage genomes: improving accuracy and matrix occupancy for phylogenomics. Molecular Biology and Evolution. [doi:10.1093/molbev/msu245](https://doi.org/10.1093/molbev/msu245)
 
 
 ### Dependencies needed to run the scripts. 
