@@ -27,7 +27,7 @@ Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using 
 
 #### **This example is for the output of 'paralog_investigator' of [HybPiper](https://github.com/mossmatters/HybPiper/wiki/Paralogs)**
 
-To use the script from [Phylogenomic dataset construction respository](https://bitbucket.org/yangya/phylogenomic_dataset_construction/src/master/) an "@" symbol needs to be added in the fasta headers to identify paralogs of the same sample.
+To use the script from [Phylogenomic dataset construction respository](https://bitbucket.org/yanglab/phylogenomic_dataset_construction/src/master/) an "@" symbol needs to be added in the fasta headers to identify paralogs of the same sample.
 
 The fasta files *.paralogs.fasta after running 'paralog_investigator' have a format from [SPAdes](http://cab.spbu.ru/software/spades/) like
 
