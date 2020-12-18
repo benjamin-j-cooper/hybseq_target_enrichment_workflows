@@ -5,9 +5,7 @@ helptext= '''
 
 This is a modified script from Matt Johnson.
 
-This script plots the piecharts proportional to the total number of gene trees, but also plot the missing nodes (i.e. total genes (fix number) - nodes present in gene tree).
-To get the total number of informative trees for each gene. Phyparts with mode -a 1 and no -s need to be run (fast). 
-The total number is the sum of concordant and discordant tree. 
+This script plots the pie charts proportional to a fix total number of gene trees, but plots the uninformative and missing nodes numbers a separe slices.
 ############################################
 
 
