@@ -244,10 +244,9 @@ Other option for ortholog gene trees is to plot the missing and uninformative se
 Those pie charts will look similar if using the original script, but the 'grey' part is now divided into uninformative and missing. The 'number of genes' is the number of input gene trees for the PhyParts analysis.    
    
    
-   
-
-
-
+<br>
+<br>
+<br>
 
 Pie charts made with the [original script](https://github.com/mossmatters/MJPythonNotebooks/blob/master/phypartspiecharts.py) using a fix number of gene trees look like this. Because we have have missing taxa in the gene trees the grey slice represent the uninformative and missing together. This gives the impression of a lot uninformative genes trees for those nodes.
 
