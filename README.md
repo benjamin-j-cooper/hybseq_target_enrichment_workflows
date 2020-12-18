@@ -245,7 +245,7 @@ Those pie charts will look similar if using the original script, but the 'grey' 
 
 Pie charts made with the [original script](https://github.com/mossmatters/MJPythonNotebooks/blob/master/phypartspiecharts.py) using a fix number of gene trees look like this. In this case we have missing data that is lumped with the uninformative (grey) giving impression of a lot uninformative genes trees for those nodes.
 
-![original](images/1_Original.png =100x20)
+![original|20%](images/1_Original.png =100x20)
 
 
 Pie charts made with 'phypartspiecharts_missing_uninformative.py.' In this case the uninformative are 'dark grey' and missing 'light grey'. The total number of gene trees is the same as in the original script
