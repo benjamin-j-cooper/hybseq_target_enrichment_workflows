@@ -250,7 +250,7 @@ Pie charts made with the [original script](https://github.com/mossmatters/MJPyth
 
 Pie charts made with 'phypartspiecharts_missing_uninformative.py.' In this case the uninformative are 'dark grey' and missing 'light grey'. The total number of gene trees is the same as in the original script
 
-![missing](images/2_Missing_and_uninfomtaive.png)
+![missing](images/2_Missing_and_uninfomtaive.png){width=50%}
 
 
 Pie charts made with the 'phypartspiecharts_proportional.py.' In this case each pie charts is proportional to total number of informing gene for that node and do not take in account the missing ones. Always use this option when plotting Phyparts analyses using homolog gene trees.
