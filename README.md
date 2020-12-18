@@ -253,7 +253,7 @@ Pie charts made with 'phypartspiecharts_missing_uninformative.py.' In this case 
 ![original](images/2_Missing_and_uninfomtaive.png)
 
 
-Pie charts made with the 'phypartspiecharts_proportional.py.' In this case each pie charts is proportional to total number of informing gene for that node and do not take in account the missing ones.
+Pie charts made with the 'phypartspiecharts_proportional.py.' In this case each pie charts is proportional to total number of informing gene for that node and do not take in account the missing ones. Always use this option when plotting Phyparts analyses using homolog gene trees.
 
 ![original](images/3_Proportional.png)
 
