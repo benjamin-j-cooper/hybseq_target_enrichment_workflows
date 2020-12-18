@@ -232,7 +232,7 @@ Then we can used the the following script to plot pie charts that each is propor
 	
 The 'species_tree' is the map tree that you used for phyparts and 'phyparts_prepend_output_files' is the prefix of PhyParts outpuf files of the full concordance analyses (-a 1) with the modified *.concon.tre file from R.
 
-When plotting pie charts of analyses that used homologs, you should always use 'proportional' script.
+When plotting pie charts of analyses that used homologs, you should always use 'proportional' script. 
 
 
 
@@ -240,17 +240,18 @@ Other option for ortholog gene trees is to plot the missing and uninformative se
 
  	python phypartspiecharts_missing_uninformative.py <species_tree> <phyparts_prepend_output_files> <number of genes>
  	
-Those pie charts will look similar if using the original script, but the 'grey' part is now divided into uninformative and missing. The 'number of genes' is the number of input gene trees for the PhyParts analysis.
+Those pie charts will look similar if using the original script, but the 'grey' part is now divided into uninformative and missing. The 'number of genes' is the number of input gene trees for the PhyParts analysis. 
+
 
 
 Pie charts made with the [original script](https://github.com/mossmatters/MJPythonNotebooks/blob/master/phypartspiecharts.py) using a fix number of gene trees look like this. Because we have have missing taxa in the gene trees the grey slice represent the uninformative and missing together. This gives the impression of a lot uninformative genes trees for those nodes.
 
-![original](images/1_Original.png)
+![original](images/1_Original.png) 
 
 
 Pie charts made with 'phypartspiecharts_missing_uninformative.py.' In this case the uninformative are 'dark grey' and missing 'light grey'. The total number of gene trees is the same as in the original script
 
-![missing](images/2_Missing_and_uninfomtaive.png)
+![missing](images/2_Missing_and_uninfomtaive.png) 
 
 
 Pie charts made with the 'phypartspiecharts_proportional.py.' In this case each pie charts is proportional to total number of informing gene for that node and do not take in account the missing ones. Always use this option when plotting Phyparts analyses of homolog gene trees.
