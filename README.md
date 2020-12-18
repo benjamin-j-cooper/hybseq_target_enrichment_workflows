@@ -226,16 +226,17 @@ We can combine the information of both analyses to get files to plot proportiona
 	write.tree(full_concordance_and_total_nodes, file = "A_1_BS_50_RT_all_homologs.concon.tre") #write tree. this will replace to orignal file.
 	
 
-Then we can used the the following modified scrip to plot pie charts that each is proportional to the total number of informing genes.
+Then we can used the the following script to plot pie charts that each is proportional to the total number of informing genes.
 
 	python phypartspiecharts_proportional.py <species_tree> <phyparts_prepend_output_files>
 	
-The 'species_tree' is the map tree that you used for phyparts and 'phyparts_prepend_output_files' is thr prefix of PhyParts outpuf files of the full concordance analyses (-a 1) with the modified *.concon.tre file
+The 'species_tree' is the map tree that you used for phyparts and 'phyparts_prepend_output_files' is the prefix of PhyParts outpuf files of the full concordance analyses (-a 1) with the modified *.concon.tre file from R.
 
-When plotting pie charts of analyses that used homologs, you should always use this script.
+When plotting pie charts of analyses that used homologs, you should always use 'proportional' script.
 
 
-Other option for ortholog gene trees is to plot the missing and uninformative separately as it own slide of the pie chart. To do this you can use the following script.
+
+Other option for ortholog gene trees is to plot the missing and uninformative separately as it own slice of the pie chart. To do this you can use the following script.
 
  	python phypartspiecharts_missing_uninformative.py <species_tree> <phyparts_prepend_output_files> <number of genes>
  	
