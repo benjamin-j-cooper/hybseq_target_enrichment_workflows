@@ -197,5 +197,49 @@ This will output a list of cleaned orthology alignments that passed the filter, 
 
 
 
+## Plotting PhyParts pie chats
+
+[PhyParts](https://bitbucket.org/blackrim/phyparts/src/master/) is a great tool to explore gene tree conflict and Matt Johnson has a great description of how PhyParts works and a great pie chart visualization script [here](https://github.com/mossmatters/MJPythonNotebooks/blob/master/PhyParts_PieCharts.ipynb)
+
+Still, this visualization assumes a fix number informing gene trees for all nodes. In other words, assumes no missing taxa in the ortholog gene trees. While this can be the case of genomic or transcriptomic filtered datasets of MO orthologs. This is not necessary the case of RT othologs, or when there is missing taxa in the gene trees like the case of target enrichment datasets or patchy transcriptomic/genomic datasets. The assumption of equal number of informing gene trees also does not apply with running PhyParts with homologs trees, where duplications and missing taxa will be mostly present.
+
+If we use a fix number of genes for orthologs with missing taxa, the 'grey' part of the pie chats will be the sum of missing and uninformative nodes. If there is a lot of missing data, this can be misleading and give the impression of a lot of uninformative nodes (below the support treshold used when running PhyParts). In the of homologs, the proportion all pie charts will be incorrect on top of the same problem with the missing and uninformative nodes.
+
+To fix this we can plot the pie charts proportional to the number of informing nodes. If you ran a full concordance analyses (-a 1) with support cutoff option (-s), PhyParts only report concordant and discordant number that passed the support threshold, but not the number of informing nodes. To get this number we can run an addional quick concordant analyses (-a 0) with out the support cutoff option (-s) and combine this from both analyses.
+
+We can combine the information of both analyses to get files to plot proportional pie charts in R:
+
+	library(phytools)
+
+	read.tree("A_0_No_BS_RT_all_homologs.concon.tre")->No_bs #Tree file output from phyparts of concordance (-a 0) anlysis with out support filtering (-s)
+	read.tree("A_1_BS_50_RT_all_homologs.concon.tre")->bs_full_concordance #Tree file output from phyparts of full concordance anlysis (-a 1) with support filtering (e.g. Bootstrap 50; -s 50)
+	
+	total_no_bs<-No_bs[[1]] # get a tree to add total node numbers
+	
+	total_no_bs$node.label<-mapply("+",as.numeric(No_bs[[1]]$node.label), as.numeric(No_bs[[2]]$node.label)) #get total number of nodes
+	total_no_bs$node.label[is.na(total_no_bs$node.label)] <- "" #remove NA values
+	total_no_bs$node.label[total_no_bs$node.label=="0"]<-"" #remove 0 values. to avoid divisions by zero.
+	
+	
+	append(bs_full_concordance, total_MO_no_bs, after=2)-> full_concordance_and_total_nodes #append tree with total number of nodes to tree file output from phyparts of full concordance anlysis
+	
+	write.tree(full_concordance_and_total_nodes, file = "A_1_BS_50_RT_all_homologs.concon.tre") #write tree. this will replace to orignal file.
+	
+
+Then we can used the the following modified scrip to plot pie charts that each is proportional to the total number of informing genes.
+
+	python phypartspiecharts_proportional.py <species_tree> <phyparts_prepend_output_files>
+	
+The 'species_tree' is the map tree that you used for phyparts and 'phyparts_prepend_output_files' is thr prefix of PhyParts outpuf files of the full concordance analyses (-a 1) with the modified *.concon.tre file
+
+When plotting pie charts of analyses that used homologs, you should always use this script.
+
+
+Other option for ortholog gene trees is to plot the missing and uninformative separately as it own slide of the pie chat. To do this you can use the following script.
+
+ 	python phypartspiecharts_missing_uninformative.py <species_tree> <phyparts_prepend_output_files> <number of genes>
+ 	
+Those piechart will look similar if using the original script, but the 'grey' part is not divided into uninformative and missing. The 'number of genes' is the number of input gene trees for the PhyParts analysis.
+
 
 
