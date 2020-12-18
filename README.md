@@ -240,7 +240,7 @@ Other option for ortholog gene trees is to plot the missing and uninformative se
 
  	python phypartspiecharts_missing_uninformative.py <species_tree> <phyparts_prepend_output_files> <number of genes>
  	
-Those piechart will look similar if using the original script, but the 'grey' part is not divided into uninformative and missing. The 'number of genes' is the number of input gene trees for the PhyParts analysis.
+Those pie charts will look similar if using the original script, but the 'grey' part is now divided into uninformative and missing. The 'number of genes' is the number of input gene trees for the PhyParts analysis.
 
 
 
