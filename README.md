@@ -199,7 +199,7 @@ This will output a list of cleaned orthology alignments that passed the filter, 
 
 ## Plotting PhyParts pie charts
 
-[PhyParts](https://bitbucket.org/blackrim/phyparts/src/master/) is a great tool to explore gene tree conflict and Matt Johnson has a great description of how PhyParts works and a great pie chart visualization script [here](https://github.com/mossmatters/MJPythonNotebooks/blob/master/PhyParts_PieCharts.ipynb)
+[PhyParts](https://bitbucket.org/blackrim/phyparts/src/master/) is a great tool to explore gene tree conflict and Matt Johnson has a great pie chart visualization script [here](https://github.com/mossmatters/MJPythonNotebooks/blob/master/PhyParts_PieCharts.ipynb)
 
 Still, this visualization assumes a fix number informing gene trees for all nodes. In other words, assumes no missing taxa in the ortholog gene trees. While this can be the case of genomic or transcriptomic filtered datasets of MO orthologs. This is not necessary the case of RT othologs, or when there is missing taxa in the gene trees like the case of target enrichment datasets or patchy transcriptomic/genomic datasets. The assumption of equal number of informing gene trees also does not apply with running PhyParts with homologs trees, where duplications and missing taxa will be mostly present.
 
