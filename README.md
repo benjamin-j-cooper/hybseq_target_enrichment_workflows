@@ -205,7 +205,7 @@ Still, this visualization assumes a fix number informing gene trees for all node
 
 If we use a fix number of genes for orthologs with missing taxa, the 'grey' part of the pie charts will be the sum of missing and uninformative nodes. If there is a lot of missing data, this can be misleading and give the false impression of a lot of uninformative nodes (below the support treshold used when running PhyParts). In the case of homologs, the proportion all pie charts will be incorrect on top of the same problem with the missing and uninformative nodes.
 
-To fix this we can plot the pie charts proportional to the number of informing nodes. If you ran a full concordance analyses (-a 1) with support cutoff option (-s), PhyParts only report total of concordant and discordant numbers that passed the support threshold, but it is missing the number of nodes that did not pass. To get this number we can run an addional quick concordant analyses (-a 0) without the support cutoff option (-s) and combine the information of both analyses.
+To fix this we can plot the pie charts proportional to the number of informing nodes. If you ran a full concordance analyses (-a 1) with support cutoff option (-s), PhyParts only report the total of concordant and discordant numbers that passed the support threshold, but it is missing the number of nodes that did not pass. To get this number we can run an addional quick concordant analyses (-a 0) without the support cutoff option (-s) and combine the information of both analyses.
 
 We can combine the information of both analyses to get files to plot proportional pie charts in R:
 
