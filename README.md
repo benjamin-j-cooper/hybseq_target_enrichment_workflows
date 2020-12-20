@@ -5,7 +5,7 @@
 
 #### If using the scrips from this repository you must cite
 
-Morales-Briones, D.F., B. Gehrke, H. Chien-Hsun Huang, A. Liston, M. Hong. H.E. Marx, D.C. Tank & Y. Yang. Analysis of paralogs in target enrichment data pinpoints multiple ancient polyploidy events in Alchemilla s.l. (Rosaceae). [bioRxiv 2020.08.21.261925; doi: https://doi.org/10.1101/2020.08.21.261925 ](https://doi.org/10.1101/2020.08.21.261925)
+Morales-Briones, D.F., B. Gehrke, H. Chien-Hsun Huang, A. Liston, M. Hong. H.E. Marx, D.C. Tank & Y. Yang.  of paralogs in target enrichment data pinpoints multiple ancient polyploidy events in Alchemilla s.l. (Rosaceae). [bioRxiv 2020.08.21.261925; doi: https://doi.org/10.1101/2020.08.21.261925 ](https://doi.org/10.1101/2020.08.21.261925)
 
 Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using transcriptomes and low-coverage genomes: improving accuracy and matrix occupancy for phylogenomics. Molecular Biology and Evolution. [doi:10.1093/molbev/msu245](https://doi.org/10.1093/molbev/msu245)
 
@@ -239,7 +239,7 @@ Other option for ortholog gene trees is to plot the missing and uninformative se
 
  	python phypartspiecharts_missing_uninformative.py <species_tree> <phyparts_prepend_output_files> <number of genes>
  	
-Those pie charts will look similar if using the original script, but the 'grey' part is now divided into uninformative and missing. The 'number of genes' is the number of input gene trees for the PhyParts analysis.  
+Those pie charts will look similar if using the original script, but the 'grey' part is now divided into uninformative and missing. The 'number of genes' is the number of input gene trees for the PhyParts .  
 
 
 
