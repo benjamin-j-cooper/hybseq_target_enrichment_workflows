@@ -24,7 +24,7 @@ def trim(inDIR,tree_file_ending,q,outDIR):
 	#runs treeshrink
 	for i in os.listdir(inDIR):
 		if i.endswith(tree_file_ending):
-			print i
+			print (i)
 			filecount += 1
 			cmd= ["run_treeshrink.py","-t", inDIR+i ,"-c","-m per-gene", "-q "+str(q), "-o",outDIR+i+".ts_dir"]
 			print (" ".join(cmd))
@@ -83,7 +83,7 @@ def trim(inDIR,tree_file_ending,q,outDIR):
 			
 if __name__ == "__main__":
 	if len(sys.argv) != 5:
-		print "python tree_shrink_wrapper.py inDIR tree_file_ending quantile outDIR"
+		print ("python tree_shrink_wrapper.py inDIR tree_file_ending quantile outDIR")
 		sys.exit(0)
 
 	inDIR,tree_file_ending,q,outDIR = sys.argv[1:]

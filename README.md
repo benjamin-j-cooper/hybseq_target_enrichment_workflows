@@ -221,7 +221,7 @@ We can combine the information of both analyses to get files to plot proportiona
 	total_no_bs$node.label[total_no_bs$node.label=="0"]<-"" #remove 0 values. to avoid divisions by zero.
 	
 	
-	append(bs_full_concordance, total_MO_no_bs, after=2)-> full_concordance_and_total_nodes #append tree with total number of nodes to tree file output from phyparts of full concordance anlysis
+	append(bs_full_concordance, total_no_bs, after=2)-> full_concordance_and_total_nodes #append tree with total number of nodes to tree file output from phyparts of full concordance anlysis
 	
 	write.tree(full_concordance_and_total_nodes, file = "A_1_BS_50_RT_all_homologs.concon.tre") #write tree. this will replace to orignal file.
 
