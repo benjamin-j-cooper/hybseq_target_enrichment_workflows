@@ -101,7 +101,7 @@ def reroot_with_monophyletic_outgroups(root):
 
 if __name__ == "__main__":
 	if len(sys.argv) != 5:
-		print "python python prune_paralogs_MO.py homoTreeDIR tree_file_ending outDIR outgroup_list"
+		print "python root_trees_mulitple_outgroup_MO.py inDIR tree_file_ending outDIR outgroup_list"
 		sys.exit(0)
 	
 	inDIR = sys.argv[1]+"/"
