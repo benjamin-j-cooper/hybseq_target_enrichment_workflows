@@ -15,7 +15,7 @@ def trimmomatic_pe(pe_fq1,pe_fq2,num_cores,DIR):
 	
 	assert os.path.exists(TruSeq_ADAPTER),"Cannot fine the adapter file "+TruSeq_ADAPTER
 	
-	trim_setting = "ILLUMINACLIP:"+TruSeq_ADAPTER+":2:30:10 SLIDINGWINDOW:4:20 LEADING:20 TRAILING:20 MINLEN:50"
+	trim_setting = "ILLUMINACLIP:"+TruSeq_ADAPTER+":2:30:10 SLIDINGWINDOW:4:5 LEADING:5 TRAILING:5 MINLEN:25"
 		
 	if DIR == ".": DIR = os.getcwd()	
 	if os.path.isabs(DIR) == False: DIR = os.path.abspath(DIR)
