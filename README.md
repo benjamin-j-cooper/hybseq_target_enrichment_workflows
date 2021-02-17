@@ -129,7 +129,7 @@ The output will files with extension .aln-cln
 It outputs the tips that were trimmed in the file .txt and the trimmed trees in the files .tt. You would need to test different quantiles to see which one fit better your data. 
 
 
-##### These are you final homologs trees. If you want to repeat the tree inference, masking, and trimming or just re-infer homologs trees without removed tips. Write fasta files from trimmed trees. 
+##### These are you final homologs trees. If you want to repeat the tree inference, masking, and trimming or just re-infer homologs trees without removed tips, write fasta files from trimmed trees. 
 
 	python write_homolog_fasta_from_multiple_aln.py <original "@" formated fasta files directory> <trimmed trees directory> <fasta file extension> <tree file extension> <output directory>
 
@@ -138,6 +138,7 @@ It outputs the tips that were trimmed in the file .txt and the trimmed trees in 
 
 
 #### For details of orthology inference refer to Yang and Smith (2014) [doi:10.1093/molbev/msu245](https://doi.org/10.1093/molbev/msu245)
+
 
 
 ##### 1to1: only look at homologs that are strictly one-to-one. No cutting is carried out.
