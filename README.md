@@ -112,7 +112,7 @@ The output will files with extension .aln-cln
 	python raxml_wrapper.py <aln-cln files directory> <# of threads> <dna or aa>
 	
 	
-##### Mask both mono- and (optional) paraphyletic tips that belong to the same taxon. Keep the tip that has the most un-ambiguous charactors in the trimmed alignment.
+##### Mask both mono- and paraphyletic tips that belong to the same taxon. Keep the tip that has the most un-ambiguous characters in the trimmed alignment.
 
 	python mask_tips_by_taxonID_transcripts.py <tre files directory> <aln-cln files directory> mask_paraphyletic <y or n>
 	
