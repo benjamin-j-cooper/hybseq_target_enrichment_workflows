@@ -20,7 +20,8 @@ def codon(inDIR,file_ending,outDIR):
 
 	codon_shift_array = ["!!A", "!!C", "!!G", "!!T", "A!!", "C!!", "G!!", "T!!", "!A!", "!C!", "!G!", "!T!", "AC!", "AG!", "AT!", "AA!", "CA!", "CG!", "CT!", "CC!", "GA!", "GC!", "GT!", "GG!", "TA!", "TC!", "TG!", "TT!", "!AC", "!AG", "!AT", "!AA", "!CA", "!CG", "!CT", "!CC", "!GA", "!GC", "!GT", "!GG", "!TA", "!TC", "!TG", "!TT", "A!C", "A!G", "A!T", "A!A", "C!A", "C!G", "C!T", "C!C", "G!A", "G!C", "G!T", "G!G", "T!A", "T!C", "T!G", "T!T",
 					"!!a", "!!c", "!!g", "!!t", "a!!", "c!!", "g!!", "t!!", "!a!", "!c!", "!g!", "!t!", "ac!", "ag!", "at!", "aa!", "ca!", "cg!", "ct!", "cc!", "ga!", "gc!", "gt!", "gg!", "ta!", "tc!", "tg!", "tt!", "!ac", "!ag", "!at", "!aa", "!ca", "!cg", "!ct", "!cc", "!ga", "!gc", "!gt", "!gg", "!ta", "!tc", "!tg", "!tt", "a!c", "a!g", "a!t", "a!a", "c!a", "c!g", "c!t", "c!c", "g!a", "g!c", "g!t", "g!g", "t!a", "t!c", "t!g", "t!t",
-					"!!N","N!!","!N!","NN!","!NN","N!N","!!n","n!!","!n!","nn!","!nn","n!n","AN!","CN!","GN!","TN!","!AN","!CN","!GN","!TN","A!N","C!N","G!N","T!N","an!","cn!","gn!","tn!","!an","!cn","!gn","!tn","a!n","c!n","g!n","t!n"]
+					"!!N","N!!","!N!","NN!","!NN","N!N","!!n","n!!","!n!","nn!","!nn","n!n","AN!","CN!","GN!","TN!","!AN","!CN","!GN","!TN","A!N","C!N","G!N","T!N","an!","cn!","gn!","tn!","!an","!cn","!gn","!tn","a!n","c!n","g!n","t!n",
+					"NA!","NC!","NG!","NT!","na!","nc!","ng!","nt!","!NT","!NA","!NG","!NC","!nt","!na","!ng","!nc"]
 
 	for i in os.listdir(inDIR):
 		if i.endswith(file_ending):
