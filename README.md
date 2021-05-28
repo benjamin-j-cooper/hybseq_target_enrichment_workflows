@@ -5,7 +5,7 @@
 
 #### If using the scrips from this repository you must cite
 
-Morales-Briones, D.F., B. Gehrke, H. Chien-Hsun Huang, A. Liston, M. Hong. H.E. Marx, D.C. Tank & Y. Yang.  Analysis of paralogs in target enrichment data pinpoints multiple ancient polyploidy events in *Alchemilla* s.l. (Rosaceae). [bioRxiv 2020.08.21.261925; doi: https://doi.org/10.1101/2020.08.21.261925 ](https://www.biorxiv.org/content/10.1101/2020.08.21.261925v2)
+Morales-Briones, D.F., B. Gehrke, H. Chien-Hsun Huang, A. Liston, M. Hong. H.E. Marx, D.C. Tank & Y. Yang.  Analysis of paralogs in target enrichment data pinpoints multiple ancient polyploidy events in *Alchemilla* s.l. (Rosaceae). [ Systematic Biology, syab032](https://doi.org/10.1093/sysbio/syab032)
 
 Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using transcriptomes and low-coverage genomes: improving accuracy and matrix occupancy for phylogenomics. Molecular Biology and Evolution. [doi:10.1093/molbev/msu245](https://doi.org/10.1093/molbev/msu245)
 
@@ -204,7 +204,7 @@ This will output a list of cleaned orthology alignments that passed the filter, 
 
 Still, this visualization assumes a fix number informative gene trees for all nodes. In other words, assumes no missing taxa in the ortholog gene trees. While this can be the case of genomic or filtered transcriptomic datasets or MO orthologs, this is not necessary the case for RT othologs, or when there are missing taxa in the gene trees like the case of target enrichment datasets or patchy transcriptomic/genomic datasets. The assumption of equal number of informing gene trees also does not apply with running PhyParts with homologs trees, where duplications and missing taxa will most likely be present.
 
-If we use a fixed number of genes for orthologs with missing taxa, the 'grey' part of the pie charts will be the sum of missing and uninformative nodes. If there is a lot of missing data, this can be misleading and give the false impression of a lot of uninformative nodes (below the support treshold used when running PhyParts). In the case of homologs, the proportion in all pie charts will be incorrect on top of the same problem with the missing and uninformative nodes.
+If we use a fixed number of genes for orthologs with missing taxa, the 'grey' part of the pie charts will be the sum of missing and uninformative nodes. If there is a lot of missing data, this can be misleading and give the false impression of a lot of uninformative nodes (below the support treshold used when running PhyParts). In the case of homologs, the proportion in all pie charts will be incorrect because of gene duplication (each node might have a different number of gene trees) in addition to the problem with the missing and uninformative nodes.
 
 To fix this we can plot the slices in pie charts proportional to the number of informing nodes. If you ran a full concordance analyses (-a 1) with support cutoff option (-s), PhyParts only report the total of concordant and discordant nodes that passed the support threshold, but it is missing the number of nodes that did not pass. To get this number we can run an addional quick concordant analyses (-a 0) without the support cutoff option (-s) and combine the information of both analyses.
 
