@@ -1,7 +1,7 @@
 # Target enrichment orthology
 
 
-#### This repository contains scripts for orthology in inference from target enrichment data (e.g. Hyb-Seq) and relies mainly in scripts from [Phylogenomic dataset construction respository](https://bitbucket.org/yanglab/phylogenomic_dataset_construction/src/master/) plus some new ones.
+#### This repository contains scripts for orthology inference from target enrichment data (e.g. Hyb-Seq) and relies mainly on scripts from [Phylogenomic dataset construction respository](https://bitbucket.org/yanglab/phylogenomic_dataset_construction/src/master/) plus some new ones.
 
 #### If using the scrips from this repository you must cite
 
@@ -25,11 +25,11 @@ Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using 
 
 ## Step 1: Format paralog fasta files
 
-#### **This example is for the output of 'paralog_investigator' of [HybPiper](https://github.com/mossmatters/HybPiper/wiki/Paralogs)**
+#### **This example is from the output of 'paralog_investigator' of [HybPiper](https://github.com/mossmatters/HybPiper/wiki/Paralogs)**
 
 To use the script from [Phylogenomic dataset construction respository](https://bitbucket.org/yanglab/phylogenomic_dataset_construction/src/master/) an "@" symbol needs to be added in the fasta headers to identify paralogs of the same sample.
 
-The fasta files *.paralogs.fasta after running 'paralog_investigator' have a format from [SPAdes](http://cab.spbu.ru/software/spades/) like
+The fasta files *.paralogs.fasta after running 'paralog_investigator' has a format from [SPAdes](http://cab.spbu.ru/software/spades/) like
 
 \>Rosa_woodsii  
 AGTC...  
@@ -40,7 +40,7 @@ ACCC....
 \>Alchemilla_colura.1 NODE_1_length_2101_cov_47.514174,Fragaria-gene15996_1557_01,0,519,79.11,(+),136,1687  
 ACCG....  
 
-##### To format the sequences run the next loop in the directory where fasta files are locaded: (Note: This command will overwrite the fasta files)
+##### To format the sequences run the loop below in the directory where the fasta files are locaded. Note: This will overwrite the fasta files.
 
 	for i in $(ls *.fasta); do
 	sed -i -E 's/(>.+)\.(.+)\s(.+)/\1@paralog_\2/‘ $i
@@ -68,7 +68,7 @@ I added reference sequences of *Fragaria vesca* as Fragaria_vesca@genome
 
 ## Step 2: Build homolog trees
 
-I used Macse for DNA alignment. Macse does not have multithread running options, so I wrote individual bash files to run them in parallel.
+I used MACSE for DNA alignment. MACSE takes codon structure into account but does not have multithread options, so I wrote individual bash files to run them in parallel.
 
 ##### To write bash files
 
@@ -82,7 +82,7 @@ I used Macse for DNA alignment. Macse does not have multithread running options,
 
 	parallel -j 32 bash ::: *.sh
 
-If there are frame shifts in the alignments, Macse will replace the shifted codons with "!" and will cause problems with RAxML or IQtree. 
+If there are frame shifts in the alignments, MACSE will replace the shifted codons with "!" and will cause problems with RAxML or IQtree. 
 
 
 ##### To replace "!" codon with gaps
@@ -90,7 +90,7 @@ If there are frame shifts in the alignments, Macse will replace the shifted codo
 	python remove_shifted_codons_from_macse.py <alignment directory> <fasta file extension> <output directory> <nt or aa>
 		
 	
-##### Alternatively, Mafft can be used for the alignment
+##### Alternatively, MAFFT can be used for alignment. MAFFT is faster but can only do amino acid or DNA models. It does not have codon models. 
 
  	python mafft_wrapper.py <fasta files directory> <fasta file extension> <# of threads> <dna or aa>
  	
@@ -112,7 +112,7 @@ The output will files with extension .aln-cln
 	python raxml_wrapper.py <aln-cln files directory> <# of threads> <dna or aa>
 	
 	
-##### Mask both mono- and paraphyletic tips that belong to the same taxon. Keep the tip that has the most un-ambiguous characters in the trimmed alignment.
+##### Mask both mono- and paraphyletic tips that belong to the same taxon. Keep the tip that has the most un-ambiguous characters in the trimmed alignment. If you choose "n" for the parameter "mask_paraphyletic", it will only mask monophyletic tips. 
 
 	python mask_tips_by_taxonID_transcripts.py <tre files directory> <aln-cln files directory> mask_paraphyletic <y or n>
 	
@@ -126,7 +126,7 @@ The output will files with extension .aln-cln
 
 	python tree_shrink_wrapper.py <input directory> <tree file extension> <quantile>
 
-It outputs the tips that were trimmed in the file .txt and the trimmed trees in the files .tt. You would need to test different quantiles to see which one fit better your data. 
+It outputs the tips that were trimmed in the file .txt and the trimmed trees in the files .tt. You would need to test different quantiles to see which one fit better your data. Make sure you open the tree file to check whether TreeShrink removes your outgroups. 
 
 
 ##### These are you final homologs trees. If you want to repeat the tree inference, masking, and trimming or just re-infer homologs trees without removed tips, write fasta files from trimmed trees. 
@@ -141,12 +141,12 @@ It outputs the tips that were trimmed in the file .txt and the trimmed trees in 
 
 
 
-##### 1to1: only look at homologs that are strictly one-to-one. No cutting is carried out.
+##### 1to1: filter homologs that contains only one sequence per species. No cutting is carried out.
 	
 	python filter_1to1_orthologs.py <final homologs directory> <tree file extension> <minimal number of taxa> <output directory>
 
 
-##### MI: prune by maximum inclusion.  Set OUTPUT_1to1_ORTHOLOGS to False if wish only to ouput orthologs that is not 1-to-1, for example, when 1-to-1 orthologs have already been analyzed in previous steps.
+##### MI: prune by maximum inclusion. Set OUTPUT_1to1_ORTHOLOGS to False if wish only to ouput orthologs that is not 1-to-1, for example, when 1-to-1 orthologs have already been analyzed in previous steps.
 
 	python prune_paralogs_MI.py <final homologs directory> <tree file extension> <relative long tip cutoff> <absolute long tip cutoff> <minimal number of taxa> <output directory>
 
@@ -202,11 +202,11 @@ This will output a list of cleaned orthology alignments that passed the filter, 
 
 [PhyParts](https://bitbucket.org/blackrim/phyparts/src/master/) is a great tool to explore gene tree conflict and Matt Johnson has a great pie chart visualization script [here](https://github.com/mossmatters/MJPythonNotebooks/blob/master/PhyParts_PieCharts.ipynb)
 
-Still, this visualization assumes a fix number informing gene trees for all nodes. In other words, assumes no missing taxa in the ortholog gene trees. While this can be the case of genomic or transcriptomic filtered datasets of MO orthologs. This is not necessary the case of RT othologs, or when there is missing taxa in the gene trees like the case of target enrichment datasets or patchy transcriptomic/genomic datasets. The assumption of equal number of informing gene trees also does not apply with running PhyParts with homologs trees, where duplications and missing taxa will be mostly present.
+Still, this visualization assumes a fix number informative gene trees for all nodes. In other words, assumes no missing taxa in the ortholog gene trees. While this can be the case of genomic or filtered transcriptomic datasets or MO orthologs, this is not necessary the case for RT othologs, or when there are missing taxa in the gene trees like the case of target enrichment datasets or patchy transcriptomic/genomic datasets. The assumption of equal number of informing gene trees also does not apply with running PhyParts with homologs trees, where duplications and missing taxa will most likely be present.
 
-If we use a fix number of genes for orthologs with missing taxa, the 'grey' part of the pie charts will be the sum of missing and uninformative nodes. If there is a lot of missing data, this can be misleading and give the false impression of a lot of uninformative nodes (below the support treshold used when running PhyParts). In the case of homologs, the proportion all pie charts will be incorrect on top of the same problem with the missing and uninformative nodes.
+If we use a fixed number of genes for orthologs with missing taxa, the 'grey' part of the pie charts will be the sum of missing and uninformative nodes. If there is a lot of missing data, this can be misleading and give the false impression of a lot of uninformative nodes (below the support treshold used when running PhyParts). In the case of homologs, the proportion in all pie charts will be incorrect on top of the same problem with the missing and uninformative nodes.
 
-To fix this we can plot the pie charts proportional to the number of informing nodes. If you ran a full concordance analyses (-a 1) with support cutoff option (-s), PhyParts only report the total of concordant and discordant nodes that passed the support threshold, but it is missing the number of nodes that did not pass. To get this number we can run an addional quick concordant analyses (-a 0) without the support cutoff option (-s) and combine the information of both analyses.
+To fix this we can plot the slices in pie charts proportional to the number of informing nodes. If you ran a full concordance analyses (-a 1) with support cutoff option (-s), PhyParts only report the total of concordant and discordant nodes that passed the support threshold, but it is missing the number of nodes that did not pass. To get this number we can run an addional quick concordant analyses (-a 0) without the support cutoff option (-s) and combine the information of both analyses.
 
 We can combine the information of both analyses to get files to plot proportional pie charts in R:
 
