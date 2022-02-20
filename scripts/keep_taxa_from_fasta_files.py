@@ -41,7 +41,7 @@ def write_fasta(fasta_DIR, fasta_file_ending, taxa_to_keep_file, outDIR):
 			
 			filtered_fasta_names = []
 	        for taxa in taxa_to_keep:
-	            r = re.compile(str(taxa)+".*")
+	            r = re.compile(str(taxa)+"@.*")
 	            filtered_fasta_names.append(filter(r.match, original_fasta_names))
 	            
 	        #print filtered_fasta_names
