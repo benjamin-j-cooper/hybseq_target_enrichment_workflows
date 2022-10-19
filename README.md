@@ -14,7 +14,15 @@ Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using 
 
 ### Dependencies needed to run the scripts. 
 
-[multifastqc]
+[GNUparallel]
+
+[hybpiper](https://github.com/mossmatters/HybPiper) Version 1.3 (the newer version should work. I recommend downloading using conda, otherwise you will need to also install hybpiper dependencies)
+
+[fastqc]
+
+[multiqc]
+
+[trimmomatic]
 
 [TreeShrink](https://github.com/uym2/TreeShrink) It works now with Version 1.3.2 (older versions won't work)
 
@@ -26,9 +34,12 @@ Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using 
 
 [MACSE](https://bioweb.supagro.inra.fr/macse/index.php?menu=releases) Version 2.0.3 (newer versions should work)
 
+### To run hybpiper, you will need a target file. I recommend making a custom target file with samples from the family of your study. 
+See the [hybpiper help page](https://github.com/mossmatters/HybPiper/wiki/Troubleshooting,-common-issues,-and-recommendations) for other suggestions.		
+
 # Part 1
-##  1.1. Download, prepare and QC raw reads
-### 1.1.1 In your working directory, make directories:		
+##  1.1. Download raw reads
+### 1.1.1. In your working directory, make directories:		
 
 	mkdir /project_directory/raw_reads
 	mkdir -p /project_directory/trimmed_reads/unpaired_trimmed
@@ -36,7 +47,7 @@ Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using 
 
 	cd raw_reads
 
-### 1.1.2 Make sample files
+### 1.1.2. Make sample files
 
 I wrote a custom script to do this for the PAFTOL dataset [make_sample_files_from_drive.py](https://bitbucket.org/Calylophus/utilities/src/master/) to produce text files needed for downloading, renaming, and calling samples
 You can edit this script to make files for your project if it is not part of the PAFTOL project.		
@@ -44,8 +55,8 @@ To Run the script:
 
 	python make_sample_files_from_drive.py -f Caryophyllaceae
 
-#### If you used the above script, skip to step 1.1.3
-#### otherwise if are not using the script, you will need to manually make three files:
+#### If you used the above script, skip to step 1.1.4
+#### 1.1.3. if are not using the script, you will need to manually make three files:
 1.  download_string.txt
 	each line of file is wget command to download a read file
 
@@ -56,84 +67,96 @@ To Run the script:
 	This is a list with the sample names you want for each sample as a line, I chose the root name from the new file names
 	genus_species_subspecies_sampleID		
 	
-### 1.1.3 Download raw reads into the raw_reads folder from sftp link or other source using the download_string.txt created in earlier and batch script download.sh
+### 1.1.4. Download raw reads into the raw_reads folder from sftp link or other source using the download_string.txt created in earlier and batch script download.sh
 #### open screen and run script from raw_reads directory:
 	
 	screen -S download
 	parallel wget {} :::: download_string.txt
 
 
-#### Once you download you will need to rename files:
+#### 1.1.5. Once you download you will need to rename files:
 I parallelized the mv function in linux to rename downloaded files using the filename_key.txt: 
 
 	parallel --colsep '\t' mv {1} {2} :::: filename_key.txt
 
 
-### 1.1.4 QC raw data with fastqc and multifastqc		
+### 1.2 QC raw data with fastqc and multifastqc		
 #### from raw_reads directory, make fastqc directory and make file list:		
 
 	mkdir fastqc
 	ls *fastq.gz > fastq_files.txt		
 	
-#### run fastqc		
+#### 1.2.1. run fastqc		
 
 	while read i; do fastqc -f fastq -t 6 $i -o /project_directory/raw_reads/fastqc/ --noextract; done < fastq_files.txt
 
-#### then from fastqc directory run multiqc		
+#### 1.2.3. then from fastqc directory run multiqc		
 
 	multiqc . -n multiqc_raw_reads_report.html
 
-### 1.1.5 Remove adapters and quality filter
-# use an Illumina adapter sequence file called "/home/diegomorales_briones/Projects/transcriptome_assembly_bench/TruSeq_adapters.fa" 
-#In text wrangler, make trimmomatic_GEN.sh script with the following text:
+### 1.3 Remove adapters and quality filter
+Here I use an Illumina adapter sequence file called "TruSeq_adapters.fa" it is publicly available [here]()
 
-for f1 in *1.fastq.gz
-do
-f2=${f1%%1.fastq.gz}"2.fastq.gz"
-echo "java -jar -Xmx10g  /home/diegomorales_briones/Apps/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 1 -phred33 $f1 $f2 ../${f1%%.fastq.gz}_paired.fq.gz ../unpaired_trimmed/${f1%%.fastq.gz}_unpaired.fq.gz ../${f2%%.fastq.gz}_paired.fq.gz ../unpaired_trimmed/${f2%%.fastq.gz}_unpaired.fq.gz ILLUMINACLIP:/home/bencooper/apps/hybpiper/TruSeq_adapters.fa:2:30:10 LEADING:5 TRAILING:5 SLIDINGWINDOW:4:20 MINLEN:25 2> ../trimm_stats/trimmomatic_stats_${f1%%1.fastq.gz}.txt" > "$f1.trimm.sh"
-done
+#### 1.3.1 In a text editor, make trimmomatic_GEN.sh script
+save it in the raw_reads directory, it will generate a script file for every read file (adjust trimmomatic settings as desired)
+Here is the code that I used for the script:
 
-# and save it in same folder as the raw sequence files to generate a script file for every read file (adjust trimmomatic settings as desired)
+	for f1 in *1.fastq.gz
+	do
+	f2=${f1%%1.fastq.gz}"2.fastq.gz"
+	echo "java -jar -Xmx10g  /Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 1 -phred33 $f1 $f2 ../${f1%%.fastq.gz}_paired.fq.gz ../unpaired_trimmed/${f1%%.fastq.gz}_unpaired.fq.gz ../${f2%%.fastq.gz}_paired.fq.gz ../unpaired_trimmed/${f2%%.fastq.gz}_unpaired.fq.gz ILLUMINACLIP:/target_enrichment_orthology/files/TruSeq_adapters.fa:2:30:10 LEADING:5 TRAILING:5 SLIDINGWINDOW:4:20 MINLEN:25 2> ../trimm_stats/trimmomatic_stats_${f1%%1.fastq.gz}.txt" > "$f1.trimm.sh"
+	done
 
-#activate script
-chmod +x trimmomatic_GEN.sh
 
-#call trimmomatic_GEN.sh to make trimmomatic scripts for each sample
-./trimmomatic_GEN.sh
+#### 1.3.2 activate script		
 
-#activate all these scripts
-chmod +x *.trimm.sh
+	chmod +x trimmomatic_GEN.sh
 
-#run all individual trimmomatic scripts using GNUparallel (note that the trimmomatic scripts will put the paired and trimmed files up one level in the folder hierarchy
-# leaving the raw reads behind in the raw_reads folder and placing the other parts of the trimmomatic output in appropriate folders.
-parallel -j 12 bash {} ::: *.fastq.gz.trimm.sh
+#### 1.3.3 call trimmomatic_GEN.sh to make trimmomatic scripts for each sample
 
-# unpack files before running hybpiper
-parallel gunzip {} ::: *.fq.gz
-cd unpaired_trimmed
-parallel gunzip {} ::: *.fq.gz
+	./trimmomatic_GEN.sh
 
-# QC trimmed reads with fastqc
-mkdir fastqc
-ls *paired.fq > fastq_files.txt
-while read i; do fastqc -f fastq -t 6 $i -o /media/data/cooper/PAFTOL/caryophyllaceae/trimmed_reads/fastqc/ --noextract; done < fastq_files.txt
+#### 1.3.4 activate all these scripts
 
-#then run multiqc
-multiqc . -n multiqc_trimmed_reads_report.html
+	chmod +x *.trimm.sh
 
-#### Make sample list
+#### 1.3.5 Run all individual trimmomatic scripts using GNUparallel (note that the trimmomatic scripts will put the paired and trimmed files up one level in the folder hierarchy
+#### leaving the raw reads behind in the raw_reads folder and placing the other parts of the trimmomatic output in appropriate folders.
 
-#### Run hybpiper 
+	parallel -j 12 bash {} ::: *.fastq.gz.trimm.sh
+
+#### 1.3.6 unzip trimmed and unpaired_trimmed files
+	
+	parallel gunzip {} ::: *.fq.gz
+	
+	cd unpaired_trimmed
+	parallel gunzip {} ::: *.fq.gz
+
+#### 1.3.7 QC trimmed reads with fastqc
+from trimmed_reads directory:
+
+	mkdir fastqc
+	ls *paired.fq > fastq_files.txt
+	while read i; do fastqc -f fastq -t 6 $i -o /project_directory/trimmed_reads/fastqc/ --noextract; done < fastq_files.txt
+
+#### 1.3.8 then run multiqc
+
+	multiqc . -n multiqc_trimmed_reads_report.html
+
+# Part 2
+## 2.1 Run hybpiper 
 
 while read i
 do
 echo "get_organelle_from_reads.py -t 4 -1 /trimmed_reads/${i%%}_1_paired.fq -2 /trimmed_reads/${i%%}_2_paired.fq -u /trimmed_reads/unpaired_trimmed/${i%%}_1_unpaired.fq,/trimmed_reads/unpaired_trimmed/${i%%}_2_unpaired.fq -o ${i%%}_plastome -R 15 -k 21,45,65,85,105 --config-dir /plastome_assembly/ -F embplant_pt --which-spades /SPAdes-3.15.4-Linux/bin/" > "/plastome_assembly/${i%%}.getOrganelle.sh"
 done < /media/data/cooper/PAFTOL/caryophyllaceae/hybpiper/sample_names2.txt
 
+# Part 3
+## 3.1 Make outgroups from genomes 
 
 
-
-
+# Part 4 
+## Align with OMM_MACSE
 
 
 
