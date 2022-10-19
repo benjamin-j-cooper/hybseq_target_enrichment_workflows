@@ -14,6 +14,8 @@ Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using 
 
 ### Dependencies needed to run the scripts. 
 
+[multifastqc]
+
 [TreeShrink](https://github.com/uym2/TreeShrink) It works now with Version 1.3.2 (older versions won't work)
 
 [RAxML](https://github.com/stamatak/standard-RAxML) Version 8.2.11  (newer versions should work)
@@ -25,50 +27,63 @@ Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using 
 [MACSE](https://bioweb.supagro.inra.fr/macse/index.php?menu=releases) Version 2.0.3 (newer versions should work)
 
 # Part 1
-##  1.1. Download raw reads
-#### In your working directory, make directories:		
+##  1.1. Download, prepare and QC raw reads
+### 1.1.1 In your working directory, make directories:		
 
-	mkdir raw_reads
-	mkdir -p /trimmed_reads/unpaired_trimmed
-	mkdir -p /trimmed_reads/trimm_stats
+	mkdir /project_directory/raw_reads
+	mkdir -p /project_directory/trimmed_reads/unpaired_trimmed
+	mkdir -p /project_directory/trimmed_reads/trimm_stats
 
 	cd raw_reads
 
-#### Make download strings for you samples, each line in the file is a set of reads
+### 1.1.2 Make sample files
 
-I wrote a custome script to do this for the PAFTOL dataset [make_sample_files_from_drive.py](https://bitbucket.org/Calylophus/utilities/src/master/) to produce text files needed for downloading, renaming, and calling samples
+I wrote a custom script to do this for the PAFTOL dataset [make_sample_files_from_drive.py](https://bitbucket.org/Calylophus/utilities/src/master/) to produce text files needed for downloading, renaming, and calling samples
+You can edit this script to make files for your project if it is not part of the PAFTOL project.		
+To Run the script:
 
 	python make_sample_files_from_drive.py -f Caryophyllaceae
 
-# use wget scripts to download sequences into the raw_reads folder from sftp link using the download_string.txt and batch script download.sh
-# make batch shell script 'download.sh' and save in raw_reads directory:
+#### If you used the above script, skip to step 1.1.3
+#### otherwise if are not using the script, you will need to manually make three files:
+1.  download_string.txt
+	each line of file is wget command to download a read file
 
-	parallel wget {} :::: download_string.txt
-
-# activate shell script
-
-	chmod +x download.sh
-
-# open screen and run batch download shell command to download each file into the raw_reads folder
+2.  filename_key.txt 
+	This is a tab delimited file with first column containing original file name and second column containing new file name (genus_species_subspecies_sampleID.fq.gz)		
+	
+3.  sample_names.txt
+	This is a list with the sample names you want for each sample as a line, I chose the root name from the new file names
+	genus_species_subspecies_sampleID		
+	
+### 1.1.3 Download raw reads into the raw_reads folder from sftp link or other source using the download_string.txt created in earlier and batch script download.sh
+#### open screen and run script from raw_reads directory:
 	
 	screen -S download
-	./download.sh
+	parallel wget {} :::: download_string.txt
 
-# rename files to include Genus and Species names
-# create a file in the raw_reads folder called filename_key.txt which is a tab delimited file with first column containing original file name and second column containing new file name (genus_species_subspecies_sampleID.fq.gz)
+
+#### Once you download you will need to rename files:
+I parallelized the mv function in linux to rename downloaded files using the filename_key.txt: 
 
 	parallel --colsep '\t' mv {1} {2} :::: filename_key.txt
-	parallel --colsep '\t' mv {1} {2} :::: outgroup_name_key.txt
 
-# QC raw data with fastqc
-mkdir fastqc
-ls *fastq.gz > fastq_files.txt
-while read i; do fastqc -f fastq -t 6 $i -o /media/data/cooper/PAFTOL/caryophyllaceae/raw_reads/fastqc/ --noextract; done < fastq_files.txt
 
-#then run multiqc
-multiqc . -n multiqc_raw_reads_report.html
+### 1.1.4 QC raw data with fastqc and multifastqc		
+#### from raw_reads directory, make fastqc directory and make file list:		
 
-# Remove adapters and quality filter
+	mkdir fastqc
+	ls *fastq.gz > fastq_files.txt		
+	
+#### run fastqc		
+
+	while read i; do fastqc -f fastq -t 6 $i -o /project_directory/raw_reads/fastqc/ --noextract; done < fastq_files.txt
+
+#### then from fastqc directory run multiqc		
+
+	multiqc . -n multiqc_raw_reads_report.html
+
+### 1.1.5 Remove adapters and quality filter
 # use an Illumina adapter sequence file called "/home/diegomorales_briones/Projects/transcriptome_assembly_bench/TruSeq_adapters.fa" 
 #In text wrangler, make trimmomatic_GEN.sh script with the following text:
 
