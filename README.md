@@ -24,6 +24,8 @@ Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using 
 
 [trimmomatic]
 
+[samtools]
+
 [TreeShrink](https://github.com/uym2/TreeShrink) It works now with Version 1.3.2 (older versions won't work)
 
 [RAxML](https://github.com/stamatak/standard-RAxML) Version 8.2.11  (newer versions should work)
@@ -41,34 +43,47 @@ See the [hybpiper help page](https://github.com/mossmatters/HybPiper/wiki/Troubl
 ##  1.1. Download raw reads
 ### 1.1.1. In your working directory, make directories:		
 
-	mkdir /project_directory/raw_reads
-	mkdir -p /project_directory/trimmed_reads/unpaired_trimmed
-	mkdir -p /project_directory/trimmed_reads/trimm_stats
-
-	cd raw_reads
+	mkdir /{project_directory}/raw_reads
+	mkdir -p /{project_directory}/raw_reads/fastqc
+	mkdir -p /{project_directory}/trimmed_reads/unpaired_trimmed
+	mkdir -p /{project_directory}/trimmed_reads/trimm_stats
+	mkdir -p /{project_directory}/trimmed_reads/fastqc
+	mkdir -p /{project_directory}/hybpiper_output/orthology
 
 ### 1.1.2. Make sample files
+first cd in into the raw_reads directory
 
-I wrote a custom script to do this for the PAFTOL dataset [make_sample_files_from_drive.py](https://bitbucket.org/Calylophus/utilities/src/master/) to produce text files needed for downloading, renaming, and calling samples
+	cd raw_reads
+		
+I wrote a custom script to do this next part for the PAFTOL dataset [make_sample_files_from_drive.py](https://bitbucket.org/Calylophus/utilities/src/master/), it produces text files needed for downloading, renaming, and calling samples
 You can edit this script to make files for your project if it is not part of the PAFTOL project.		
-To Run the script:
+To run the script:
 
-	python make_sample_files_from_drive.py -f Caryophyllaceae
+	python make_sample_files_from_drive.py -f {family}
 
 #### If you used the above script, skip to step 1.1.4
 #### 1.1.3. if are not using the script, you will need to manually make three files:
 1.  download_string.txt
 	each line of file is wget command to download a read file
+	save this in /{project_directory}/raw_reads/
+	
+	
 
 2.  filename_key.txt 
 	This is a tab delimited file with first column containing original file name and second column containing new file name (genus_species_subspecies_sampleID.fq.gz)		
+	/{project_directory}/raw_reads/
+	
+	
 	
 3.  sample_names.txt
 	This is a list with the sample names you want for each sample as a line, I chose the root name from the new file names
-	genus_species_subspecies_sampleID		
+	genus_species_subspecies_sampleID	
+	save this in /{project_directory}/hybpiper_output/
+	
+	
 	
 ### 1.1.4. Download raw reads into the raw_reads folder from sftp link or other source using the download_string.txt created in earlier and batch script download.sh
-#### open screen and run script from raw_reads directory:
+open screen and run script from raw_reads directory:
 	
 	screen -S download
 	parallel wget {} :::: download_string.txt
@@ -79,23 +94,24 @@ I parallelized the mv function in linux to rename downloaded files using the fil
 
 	parallel --colsep '\t' mv {1} {2} :::: filename_key.txt
 
+## 1.2 QC raw data
+### 1.2.1 QC raw data with fastqc	
+from raw_reads directory, make a txt file with names of all the .fq files to QC, then run fastqc
 
-### 1.2 QC raw data with fastqc and multifastqc		
-#### from raw_reads directory, make fastqc directory and make file list:		
-
-	mkdir fastqc
-	ls *fastq.gz > fastq_files.txt		
+	ls *fastq.gz > ./fastqc/fastq_files.txt		
 	
-#### 1.2.1. run fastqc		
+then run fastqc		
 
-	while read i; do fastqc -f fastq -t 6 $i -o /project_directory/raw_reads/fastqc/ --noextract; done < fastq_files.txt
+	while read i; do fastqc -f fastq -t 6 $i -o /{project_directory}/raw_reads/fastqc/ --noextract; done < ./fastqc/fastq_files.txt
 
-#### 1.2.3. then from fastqc directory run multiqc		
-
+#### 1.2.2. then from fastqc directory run multiqc
+multiqc compiles fastqc reports into one larger report for easy veiwing
+	
+	cd fastqc
 	multiqc . -n multiqc_raw_reads_report.html
 
 ### 1.3 Remove adapters and quality filter
-Here I use an Illumina adapter sequence file called "TruSeq_adapters.fa" it is publicly available [here]()
+Here I use an Illumina adapter sequence file called "TruSeq_adapters.fa" it is publicly available [here]() or you can use your own tailored to your project.
 
 #### 1.3.1 In a text editor, make trimmomatic_GEN.sh script
 save it in the raw_reads directory, it will generate a script file for every read file (adjust trimmomatic settings as desired)
@@ -104,9 +120,8 @@ Here is the code that I used for the script:
 	for f1 in *1.fastq.gz
 	do
 	f2=${f1%%1.fastq.gz}"2.fastq.gz"
-	echo "java -jar -Xmx10g  /Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 1 -phred33 $f1 $f2 ../${f1%%.fastq.gz}_paired.fq.gz ../unpaired_trimmed/${f1%%.fastq.gz}_unpaired.fq.gz ../${f2%%.fastq.gz}_paired.fq.gz ../unpaired_trimmed/${f2%%.fastq.gz}_unpaired.fq.gz ILLUMINACLIP:/target_enrichment_orthology/files/TruSeq_adapters.fa:2:30:10 LEADING:5 TRAILING:5 SLIDINGWINDOW:4:20 MINLEN:25 2> ../trimm_stats/trimmomatic_stats_${f1%%1.fastq.gz}.txt" > "$f1.trimm.sh"
+	echo "java -jar -Xmx10g  /{apps_directory}/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 1 -phred33 $f1 $f2 ../${f1%%.fastq.gz}_paired.fq.gz ../unpaired_trimmed/${f1%%.fastq.gz}_unpaired.fq.gz ../${f2%%.fastq.gz}_paired.fq.gz ../unpaired_trimmed/${f2%%.fastq.gz}_unpaired.fq.gz ILLUMINACLIP:/target_enrichment_orthology/files/TruSeq_adapters.fa:2:30:10 LEADING:5 TRAILING:5 SLIDINGWINDOW:4:20 MINLEN:25 2> ../trimm_stats/trimmomatic_stats_${f1%%1.fastq.gz}.txt" > "$f1.trimm.sh"
 	done
-
 
 #### 1.3.2 activate script		
 
@@ -118,12 +133,12 @@ Here is the code that I used for the script:
 
 #### 1.3.4 activate all these scripts
 
-	chmod +x *.trimm.sh
+	chmod +x *.trim.sh
 
-#### 1.3.5 Run all individual trimmomatic scripts using GNUparallel (note that the trimmomatic scripts will put the paired and trimmed files up one level in the folder hierarchy
-#### leaving the raw reads behind in the raw_reads folder and placing the other parts of the trimmomatic output in appropriate folders.
+#### 1.3.5 Run all individual trimmomatic scripts using GNUparallel 
+note that the trimmomatic scripts will put the paired and trimmed files up one level in the folder hierarchy leaving the raw reads behind in the raw_reads folder and placing the other parts of the trimmomatic output in appropriate folders.
 
-	parallel -j 12 bash {} ::: *.fastq.gz.trimm.sh
+	parallel -j 12 bash {} ::: *.fastq.gz.trim.sh
 
 #### 1.3.6 unzip trimmed and unpaired_trimmed files
 	
@@ -133,23 +148,155 @@ Here is the code that I used for the script:
 	parallel gunzip {} ::: *.fq.gz
 
 #### 1.3.7 QC trimmed reads with fastqc
-from trimmed_reads directory:
+from __trimmed_reads__ directory, make a txt file with names of all the .fq files to QC, then run fastqc
 
-	mkdir fastqc
-	ls *paired.fq > fastq_files.txt
-	while read i; do fastqc -f fastq -t 6 $i -o /project_directory/trimmed_reads/fastqc/ --noextract; done < fastq_files.txt
+	ls *paired.fq > ./fastqc/fastq_files.txt
+	while read i; do fastqc -f fastq -t 6 $i -o /{project_directory}/trimmed_reads/fastqc/ --noextract; done < ./fastqc/fastq_files.txt
 
 #### 1.3.8 then run multiqc
+cd into the fastqc directory and run multiqc
 
+	cd fastqc
 	multiqc . -n multiqc_trimmed_reads_report.html
 
 # Part 2
-## 2.1 Run hybpiper 
+## 2.1 Run hybpiper with Paralog investigator/retriever
+### 2.1.1 Run hybpiper
+	cd /{project_directory}/hybpiper_output/
+	
+To get paralogs with different percentages you need to first run a full HyPipper assembly
+make hybpiper script and save as hybpiper.sh
+notice that it is run in parrallel using the sample_name.txt file created earlier and specifying the number of cpu's with --cpu
 
-while read i
+	while read i
+	do
+	echo "python /{apps_directory}/hybPiper/reads_first.py --prefix $i --bwa --cpu 10 -b target_file.fasta -r /{project_directory}/trimmed_reads/$i*_paired.fq --unpaired /{project_directory}/trimmed_reads/unpaired_trimmed/${i%%}_cat_unpaired.fq" > "/{project_directory}/hybpiper_output/$i.hybpiper.sh"
+	done < /{project_directory}/hybpiper_output/sample_names.txt
+
+then activate the script
+
+	chmod +x hybpiper.sh
+
+and run
+
+	./hybpiper.sh
+
+### 2.1.2 Rerun hybpiper with modified version for less stringent paralog 
+The percentage for calling paralogs is in line 459 of the 'exonerate_hits.py' script. The original line is "longhits = [x > 0.75*protlength for x in hitlengths]"
+I changed the percentage in line 459 in the modified version of hybpiper in this repository to > 50%
+Now run the modified version of hybPiper from this repository in the same hybpiper_output folder but skipping the BLAST, read distribution, mapping and assembly steps:
+
+make second hybpiper script and save as hybpiper_50.sh
+
+	while read i
+	do
+	echo "python /target_enrichment_orthology/scripts/reads_first_50.py --prefix $i --no-blast --no-distribute --no-assemble --bwa --cpu 10 -b target_file.fasta -r /{project_directory}/trimmed_reads/$i*_paired.fq --unpaired /{project_directory}/trimmed_reads/unpaired_trimmed/${i%%}_cat_unpaired.fq" > "/{project_directory}/hybpiper_output/$i.hybpiper_50.sh"
+	done < /{project_directory}/hybpiper_output/sample_names.txt
+
+activate script and run
+	
+	chmod +x hybpiper_50.sh
+	./hybpiper.sh
+
+Rerunning this step is pretty fast because it uses the previous run results. So, you need to run the full HybPiper assembly only once and only the output of exonerate will be modified. 
+
+### 2.1.3 cleanup un-neaded intermediate files created by hybpiper
+
+	while read i; do python /{apps_directory}/hybPiper/cleanup.py $i; done < sample_names.txt
+
+### 2.1.4 Run stats on gene recovery and assembly:
+nifty script to check enrichment efficiency
+
+	while read i; do samtools flagstat $i/$i.bam; done < sample_names.txt
+
+this is for making the gene_recovery_heatmap with the R script provided with the HybSeq wiki
+
+	python /{apps_directory}/hybPiper/get_seq_lengths.py target_file.fasta sample_names.txt dna > gene_lengths.txt
+
+save gene_lengths.txt to computer
+see HybPiper documentation on GITHub for R script to generate heatmap
+
+### 2.1.5 paralog investigator
+Now use 'paralog_investigator.py' and 'paralog_retriever.py' to get the alignments with the percentage that you want to test.
+	
+	while read i; do echo $i python /{apps_directory}/hybPiper/paralog_investigator.py  $i >> ./orthology/paralogs.txt; done < sample_names.txt
+
+edit paralog_long.txt so there is only unique gene for each line. I did this in BB edit but you can do this in any text editor using find and replace:
+
+	^\d+?\sparalogs\swritten\sfor\s 
+
+and replace with nothing
+
+then remove duplicates - In BBEdit, you can do this easily by going to "Text->Process Duplicated Lines"
+then use find and replace in text editor to replace all \r with a single space to make a list of genes separated by spaces
+save this file as paralogs_unique.txt in your /orthology/ directory
+
+### 2.1.6 Paralog retriever
+Run for select genes identified by paralog investigator (I exported the .txt file I made from the output screen of paralog investigator into R, removed the headers and then selected unique gene names with a custom script. the file is called "paralogs_50_curated" in my hybpiper directory):
+Using a file with one gene per line (this is currently not working but would be an easy fix)
+
+	parallel "python /{apps_directory}/hybPiper/paralog_retriever.py sample_names.txt {} > ./orthology/{}.paralogs.fasta" ::: paralogs_unique.txt 2> ./orthologs/paralog_table.txt
+
+#using gene names (this is working):
+
+	parallel "python /{apps_directory}/hybPiper/paralog_retriever.py sample_names.txt {} > ./orthology/{}.paralogs.fasta" ::: 6051 6295 4527 5664 5460 6439 6026 4802 6947 4724 6238 5821 6176 6641 6909 4757 6282 6538 6992 6447 5328 6494 5721 6303 6119 6000 6036 6780 4989 6462 5842 6373 5594 5942 6387 6779 6875 6068 5131 6528 7313 6527 5206 7628 5271 6483 5857 6274 7324 6460 5910 5355 6914 4954 6883 6732 5280 5449 5865 5434 5463 5162 6130 6550 6782 6003 5913 5357 5430 5980 6882 5802 6825 5273 5981 6034 7028 7371 6886 6533 5919 6412 5428 7333 6620 5941 5744 5343 6498 6946 5426 6791 6487 6532 6128 5536 5620 5188 5950 4951 5958 5469 6110 5333 6500 5933 7367 6559 6531 6148 7336 6164 6407 6299 6955 6401 6979 5660 6449 5220 4932 5578 6557 5177 7067 6954 6488 7325 6139 5422 7194 5840 5853 6492 6785 5347 5656 5116 5531 6284 7602 5940 6797 6705 6379 6969 6860 6962 7583 4889 6038 7029 6048 5528 5326 6913 5859 6227 7273 5960 6420 5257 7363 7024 6933 6198 6496 5464 5702 5299 4691 4992 6114 5945 5949 6016 6064 5398 5893 6738 6221 6631 5123 6649 6958 5562 5090 6978 5064 5894 5642 6506 7361 5034 7141 6459 5477 6733 6150 5974 6004 7111 6265 6393 5168 2> ./orthologs/paralog_table.txt
+
+cd into orthologs directory 
+
+	cd paralogs
+
+remove empty genes files where no sequences were captured (this may resolve issues with RAxML later in pipeline)
+
+	find ./*paralogs.fasta -maxdepth 1 -type f -empty -delete > empty_genes.txt
+
+
+
+
+
+
+# Step 1, an "@" symbol needs to be added in the fasta headers to identify paralogs of the same sample. To format the sequences run the loop below in the directory where the fasta files are locaded. Note: This will overwrite the fasta files from paralog investigator
+
+# run rename_paralogs.sh script in paralogs directory (from Diego's bitbucket page):
+
+for i in $(ls *.fasta); do 
+sed -i -E 's/(>.+)\.(.+)\s(.+)/\1@paralog_\2/' $i
+sed -i '/>/ {/@/! s/$/@unique/}' $i
+done
+
+# Step 2, align sequences using MACSE and build homolog trees. MACSE takes codon structure into account but does not have multithread options, so I wrote individual bash files to run them in parallel.
+
+# run bash_MACSE.sh script from paralog_alignments folder to make individual bash files for each fasta gene file, this is the .sh script:
+for filename in $(ls *.fasta)
 do
-echo "get_organelle_from_reads.py -t 4 -1 /trimmed_reads/${i%%}_1_paired.fq -2 /trimmed_reads/${i%%}_2_paired.fq -u /trimmed_reads/unpaired_trimmed/${i%%}_1_unpaired.fq,/trimmed_reads/unpaired_trimmed/${i%%}_2_unpaired.fq -o ${i%%}_plastome -R 15 -k 21,45,65,85,105 --config-dir /plastome_assembly/ -F embplant_pt --which-spades /SPAdes-3.15.4-Linux/bin/" > "/plastome_assembly/${i%%}.getOrganelle.sh"
-done < /media/data/cooper/PAFTOL/caryophyllaceae/hybpiper/sample_names2.txt
+echo java -jar ~/Apps/macse_v2.03.jar -prog alignSequences -seq $filename -out_NT $(cut -d'.' -f1 <<<"$filename").NT.aln -out_AA $(cut -d'.' -f1 <<<"$filename").AA.aln > $(cut -d'.' -f1 <<<"$filename")_paralogs.sh
+done
+
+#then activate scripts
+chmod +x *_paralogs.sh
+
+# then run MACSE in parallel for each shell script
+parallel -j 18 bash ::: *_paralogs.sh
+
+####Remove any genes that MACSE cant align (6128 is a problem for caryophyllaceae). remove from the list above that paralog retreiver uses, from curated_50.txt, and remove the fasta file from the paralogs directory.
+
+# make directory for gapped alignments
+mkdir gapped
+cd gapped
+mkdir AA
+mkdir NT
+cd ../
+
+# Replace "!" codon with gaps
+python /home/bencooper/Projects/target_enrichment_orthology/scripts/remove_shifted_codons_from_macse.py /media/data/cooper/PAFTOL/caryophyllaceae/hybpiper/paralogs .AA.aln ./gapped/AA aa
+
+python /home/bencooper/Projects/target_enrichment_orthology/scripts/remove_shifted_codons_from_macse.py /media/data/cooper/PAFTOL/caryophyllaceae/hybpiper/paralogs .NT.aln ./gapped/NT nt
+
+# trim alignments with Phyx
+# what is minimum column occupancy? what is the format of the number needed? - looks like Diego used 90% minimum occupancy in his alchemila paper...so .90
+python /home/bencooper/Projects/target_enrichment_orthology/scripts/pxclsq_wrapper.py /media/data/cooper/PAFTOL/caryophyllaceae/hybpiper/paralogs/gapped/AA/ .90 aa
+python /home/bencooper/Projects/target_enrichment_orthology/scripts/pxclsq_wrapper.py /media/data/cooper/PAFTOL/caryophyllaceae/hybpiper/paralogs/gapped/NT/ .90 dna
+
+
 
 # Part 3
 ## 3.1 Make outgroups from genomes 
