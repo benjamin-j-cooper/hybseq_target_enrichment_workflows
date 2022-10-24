@@ -14,6 +14,8 @@ Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using 
 
 ### Dependencies needed to run the scripts. 
 
+[python2.7]
+
 [GNUparallel]
 
 [hybpiper](https://github.com/mossmatters/HybPiper) Version 1.3 (the newer version should work. I recommend downloading using conda, otherwise you will need to also install hybpiper dependencies)
@@ -39,7 +41,7 @@ Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using 
 ### To run hybpiper, you will need a target file. I recommend making a custom target file with samples from the family of your study. 
 See the [hybpiper help page](https://github.com/mossmatters/HybPiper/wiki/Troubleshooting,-common-issues,-and-recommendations) for other suggestions.		
 
-# Part 1
+# Part 1: data preparation
 ##  1.1. Download raw reads
 ### 1.1.1. In your working directory, make directories:		
 
@@ -159,9 +161,8 @@ cd into the fastqc directory and run multiqc
 	cd fastqc
 	multiqc . -n multiqc_trimmed_reads_report.html
 
-# Part 2
-## 2.1 Run hybpiper with Paralog investigator/retriever
-### 2.1.1 Run hybpiper
+# Part 2: hybpiper
+### 2.1 Run hybpiper
 	cd /{project_directory}/hybpiper_output/
 	
 To get paralogs with different percentages you need to first run a full HyPipper assembly
@@ -181,7 +182,7 @@ and run
 
 	./hybpiper.sh
 
-### 2.1.2 Rerun hybpiper with modified version for less stringent paralog 
+### 2.2 Rerun hybpiper with modified version for less stringent paralog 
 The percentage for calling paralogs is in line 459 of the 'exonerate_hits.py' script. The original line is "longhits = [x > 0.75*protlength for x in hitlengths]"
 I changed the percentage in line 459 in the modified version of hybpiper in this repository to > 50%
 Now run the modified version of hybPiper from this repository in the same hybpiper_output folder but skipping the BLAST, read distribution, mapping and assembly steps:
@@ -200,11 +201,11 @@ activate script and run
 
 Rerunning this step is pretty fast because it uses the previous run results. So, you need to run the full HybPiper assembly only once and only the output of exonerate will be modified. 
 
-### 2.1.3 cleanup un-neaded intermediate files created by hybpiper
+### 2.3 cleanup un-neaded intermediate files created by hybpiper
 
 	while read i; do python /{apps_directory}/hybPiper/cleanup.py $i; done < sample_names.txt
 
-### 2.1.4 Run stats on gene recovery and assembly:
+### 2.4 Run stats on gene recovery and assembly:
 nifty script to check enrichment efficiency
 
 	while read i; do samtools flagstat $i/$i.bam; done < sample_names.txt
@@ -216,7 +217,12 @@ this is for making the gene_recovery_heatmap with the R script provided with the
 save gene_lengths.txt to computer
 see HybPiper documentation on GITHub for R script to generate heatmap
 
-### 2.1.5 paralog investigator
+# Part 3
+## 3.1 Make outgroups from genomes 
+
+
+# Part 4 
+### 4.1 paralog investigator
 Now use 'paralog_investigator.py' and 'paralog_retriever.py' to get the alignments with the percentage that you want to test.
 	
 	while read i; do echo $i python /{apps_directory}/hybPiper/paralog_investigator.py  $i >> ./orthology/paralogs.txt; done < sample_names.txt
@@ -231,7 +237,7 @@ then remove duplicates - In BBEdit, you can do this easily by going to "Text->Pr
 then use find and replace in text editor to replace all \r with a single space to make a list of genes separated by spaces
 save this file as paralogs_unique.txt in your /orthology/ directory
 
-### 2.1.6 Paralog retriever
+### 4.2 Paralog retriever
 Run for select genes identified by paralog investigator (I exported the .txt file I made from the output screen of paralog investigator into R, removed the headers and then selected unique gene names with a custom script. the file is called "paralogs_50_curated" in my hybpiper directory):
 Using a file with one gene per line (this is currently not working but would be an easy fix)
 
@@ -241,79 +247,21 @@ Using a file with one gene per line (this is currently not working but would be 
 
 	parallel "python /{apps_directory}/hybPiper/paralog_retriever.py sample_names.txt {} > ./orthology/{}.paralogs.fasta" ::: 6051 6295 4527 5664 5460 6439 6026 4802 6947 4724 6238 5821 6176 6641 6909 4757 6282 6538 6992 6447 5328 6494 5721 6303 6119 6000 6036 6780 4989 6462 5842 6373 5594 5942 6387 6779 6875 6068 5131 6528 7313 6527 5206 7628 5271 6483 5857 6274 7324 6460 5910 5355 6914 4954 6883 6732 5280 5449 5865 5434 5463 5162 6130 6550 6782 6003 5913 5357 5430 5980 6882 5802 6825 5273 5981 6034 7028 7371 6886 6533 5919 6412 5428 7333 6620 5941 5744 5343 6498 6946 5426 6791 6487 6532 6128 5536 5620 5188 5950 4951 5958 5469 6110 5333 6500 5933 7367 6559 6531 6148 7336 6164 6407 6299 6955 6401 6979 5660 6449 5220 4932 5578 6557 5177 7067 6954 6488 7325 6139 5422 7194 5840 5853 6492 6785 5347 5656 5116 5531 6284 7602 5940 6797 6705 6379 6969 6860 6962 7583 4889 6038 7029 6048 5528 5326 6913 5859 6227 7273 5960 6420 5257 7363 7024 6933 6198 6496 5464 5702 5299 4691 4992 6114 5945 5949 6016 6064 5398 5893 6738 6221 6631 5123 6649 6958 5562 5090 6978 5064 5894 5642 6506 7361 5034 7141 6459 5477 6733 6150 5974 6004 7111 6265 6393 5168 2> ./orthologs/paralog_table.txt
 
-cd into orthologs directory 
+cd into orthology directory 
 
-	cd paralogs
+	cd orthology
 
-remove empty genes files where no sequences were captured (this may resolve issues with RAxML later in pipeline)
+remove empty genes files where no sequences were captured (this may resolve issues with RAxML later on)
 
 	find ./*paralogs.fasta -maxdepth 1 -type f -empty -delete > empty_genes.txt
 
+# Part 5 orthology
 
-
-
-
-
-# Step 1, an "@" symbol needs to be added in the fasta headers to identify paralogs of the same sample. To format the sequences run the loop below in the directory where the fasta files are locaded. Note: This will overwrite the fasta files from paralog investigator
-
-# run rename_paralogs.sh script in paralogs directory (from Diego's bitbucket page):
-
-for i in $(ls *.fasta); do 
-sed -i -E 's/(>.+)\.(.+)\s(.+)/\1@paralog_\2/' $i
-sed -i '/>/ {/@/! s/$/@unique/}' $i
-done
-
-# Step 2, align sequences using MACSE and build homolog trees. MACSE takes codon structure into account but does not have multithread options, so I wrote individual bash files to run them in parallel.
-
-# run bash_MACSE.sh script from paralog_alignments folder to make individual bash files for each fasta gene file, this is the .sh script:
-for filename in $(ls *.fasta)
-do
-echo java -jar ~/Apps/macse_v2.03.jar -prog alignSequences -seq $filename -out_NT $(cut -d'.' -f1 <<<"$filename").NT.aln -out_AA $(cut -d'.' -f1 <<<"$filename").AA.aln > $(cut -d'.' -f1 <<<"$filename")_paralogs.sh
-done
-
-#then activate scripts
-chmod +x *_paralogs.sh
-
-# then run MACSE in parallel for each shell script
-parallel -j 18 bash ::: *_paralogs.sh
-
-####Remove any genes that MACSE cant align (6128 is a problem for caryophyllaceae). remove from the list above that paralog retreiver uses, from curated_50.txt, and remove the fasta file from the paralogs directory.
-
-# make directory for gapped alignments
-mkdir gapped
-cd gapped
-mkdir AA
-mkdir NT
-cd ../
-
-# Replace "!" codon with gaps
-python /home/bencooper/Projects/target_enrichment_orthology/scripts/remove_shifted_codons_from_macse.py /media/data/cooper/PAFTOL/caryophyllaceae/hybpiper/paralogs .AA.aln ./gapped/AA aa
-
-python /home/bencooper/Projects/target_enrichment_orthology/scripts/remove_shifted_codons_from_macse.py /media/data/cooper/PAFTOL/caryophyllaceae/hybpiper/paralogs .NT.aln ./gapped/NT nt
-
-# trim alignments with Phyx
-# what is minimum column occupancy? what is the format of the number needed? - looks like Diego used 90% minimum occupancy in his alchemila paper...so .90
-python /home/bencooper/Projects/target_enrichment_orthology/scripts/pxclsq_wrapper.py /media/data/cooper/PAFTOL/caryophyllaceae/hybpiper/paralogs/gapped/AA/ .90 aa
-python /home/bencooper/Projects/target_enrichment_orthology/scripts/pxclsq_wrapper.py /media/data/cooper/PAFTOL/caryophyllaceae/hybpiper/paralogs/gapped/NT/ .90 dna
-
-
-
-# Part 3
-## 3.1 Make outgroups from genomes 
-
-
-# Part 4 
-## Align with OMM_MACSE
-
-
-
-
-
-
-
-
-## Step 1: Format paralog fasta files
-
+	cd orthology
+	mkdir -p /gapped/AA
+	mkdir -p /gapped/NT
+	
+### 5.1 Format paralog fasta files
 #### **This example is from the output of 'paralog_investigator' of [HybPiper](https://github.com/mossmatters/HybPiper/wiki/Paralogs)**
 
 To use the script from [Phylogenomic dataset construction respository](https://bitbucket.org/yanglab/phylogenomic_dataset_construction/src/master/) an "@" symbol needs to be added in the fasta headers to identify paralogs of the same sample.
@@ -331,11 +279,14 @@ ACCG....
 
 ##### To format the sequences run the loop below in the directory where the fasta files are locaded. Note: This will overwrite the fasta files.
 
-	for i in $(ls *.fasta); do
-	sed -i -E 's/(>.+)\.(.+)\s(.+)/\1@paralog_\2/‘ $i
-	sed -i '/>/ {/@/! s/$/@unique/}’ $i
-	done 
-	
+an "@" symbol needs to be added in the fasta headers to identify paralogs of the same sample. To format the sequences run the loop below in the directory where the fasta files are locaded. Note: This will overwrite the fasta files from paralog investigator
+run rename_paralogs.sh script in paralogs directory:
+
+	for i in $(ls *.fasta); do 
+	sed -i -E 's/(>.+)\.(.+)\s(.+)/\1@paralog_\2/' $i
+	sed -i '/>/ {/@/! s/$/@unique/}' $i
+	done
+
 The output of this will be
 
 \>Rosa_woodsii@unique  
@@ -348,70 +299,61 @@ ACCC....
 ACCG....  
 
 ##### For details of SPAdes contigs see [HybPiper's paralogs description](https://github.com/mossmatters/HybPiper/wiki/Paralogs)
+In these steps, by distributing the genome outgroups in the hybpiper directory structure, those samples are incorporated when genes are gathered for aligment and named @main 
+If other additional sequences are added to the fasta files at this stage (e.g. from reference genomes) make sure that those also have the "@" format.
 
+### 5.2 align sequences using OMM_MACSE and build homolog trees
+MACSE takes codon structure into account and runs efficiently with many samples
+note: one issue that I ran into with the OMM_MACSE pipeline install, at least on the workstation I used, is that it has trouble with accessing directories other than the directory where it is installed. 
+therefore, for large data sets I recommend installing the OMM_MACSE pipeline in the project directory, rather than your apps directory (otherwise you will have to copy all of your assemblies to your apps directory and mv the output alignment directories back to your project directory
+run bash_MACSE.sh script from paralog_alignments folder to make individual bash files for each fasta gene file, this is the .sh script:
 
-If other additional sequences are added to the fasta files (e.g. from reference genomes) make sure that those also have the "@" format.
+	for i in *paralogs.fasta; do 
+	/{project_directory}/MACSE_V2_PIPELINES/OMM_MACSE/omm_macse_v10.02.sif 
+	--in_seq_file $i 
+	--out_dir ${i%%_FNA.fasta} 
+	--out_file_prefix ${i%%_FNA.fasta}; 
+	done > omm_macse_log.txt
 
-I added reference sequences of *Fragaria vesca* as Fragaria_vesca@genome
+Visually inspect alignments for artifacts! I removed artifacts manually in jalview. 
+remove any genes that MACSE cant align (6128 is a problem for caryophyllaceae):
+remove from the paralogs_unique.txt list and move the fasta file from the paralogs directory into another location (make a directory called "cant_align"?).
 
-
-## Step 2: Build homolog trees
-
-I used MACSE for DNA alignment. MACSE takes codon structure into account but does not have multithread options, so I wrote individual bash files to run them in parallel.
-
-##### To write bash files
-
-	for filename in $(ls *.fasta)
-	do
-	echo java -jar ~/Apps/macse_v2.03.jar -prog alignSequences -seq $filename -out_NT $(cut -d'.' -f1 <<<"$filename").NT.aln -out_AA $(cut -d'.' -f1 <<<"$filename").AA.aln > $(cut -d'.' -f1 <<<"$filename").sh
-	done  
-
-
-##### To run alignment runs in parallel
-
-	parallel -j 32 bash ::: *.sh
-
+### 3.3 Replace "!" codon with gaps
 If there are frame shifts in the alignments, MACSE will replace the shifted codons with "!" and will cause problems with RAxML or IQtree. 
 
+	python /target_enrichment_orthology/scripts/remove_shifted_codons_from_macse.py /{project_directory}/hybpiper_output/orthology/ .AA.aln ./gapped/AA aa
+	python /target_enrichment_orthology/scripts/remove_shifted_codons_from_macse.py /{project_directory}/hybpiper_output/orthology/ .NT.aln ./gapped/NT nt
 
-##### To replace "!" codon with gaps
-
-	python remove_shifted_codons_from_macse.py <alignment directory> <fasta file extension> <output directory> <nt or aa>
-		
-	
-##### Alternatively, MAFFT can be used for alignment. MAFFT is faster but can only do amino acid or DNA models. It does not have codon models. 
-
- 	python mafft_wrapper.py <fasta files directory> <fasta file extension> <# of threads> <dna or aa>
- 	
- 	
-##### Trim alignments with Phyx
+### 3.4 trim alignments with Phyx
+The output will files with extension .aln-cln
 
 	python pxclsq_wrapper.py <alignment directory > <mininum column occupancy> <dna or aa>
 	
-The output will files with extension .aln-cln
+	python /home/bencooper/Projects/target_enrichment_orthology/scripts/pxclsq_wrapper.py /media/data/cooper/PAFTOL/caryophyllaceae/hybpiper/paralogs/gapped/AA/ .90 aa
+	python /home/bencooper/Projects/target_enrichment_orthology/scripts/pxclsq_wrapper.py /media/data/cooper/PAFTOL/caryophyllaceae/hybpiper/paralogs/gapped/NT/ .90 dna
 
+phyx does wierd things to the fasta headers - 
 
-##### Infer ML trees with RAxML. This will infer trees with GTRGAMMA and 100 bootstrap replicates (different model and # of bs replicates can be modify in the script).  
+### 3.5 Build homolog trees
+infer trees with RAxML. This will infer trees with GTRGAMMA and 100 bootstrap replicates (different model and # of bs replicates can be modify in the script).
 
 	python raxml_bs_wrapper.py <aln-cln files directory> <# of threads> <dna or aa>
 	
-	
-##### If no bs replicates are needed use. 
-	
-	python raxml_wrapper.py <aln-cln files directory> <# of threads> <dna or aa>
-	
-	
-##### Mask both mono- and paraphyletic tips that belong to the same taxon. Keep the tip that has the most un-ambiguous characters in the trimmed alignment. If you choose "n" for the parameter "mask_paraphyletic", it will only mask monophyletic tips. 
+Inspect your trees after making them 
+
+### 3.6 Mask both mono- and paraphyletic tips that belong to the same taxon. 
+Keep the tip that has the most un-ambiguous characters in the trimmed alignment. If you choose "n" for the parameter "mask_paraphyletic", it will only mask monophyletic tips. 
 
 	python mask_tips_by_taxonID_transcripts.py <tre files directory> <aln-cln files directory> mask_paraphyletic <y or n>
 	
-
-##### Alternatively, to remove only monophyletic tips and keep the sequence with the shortest terminal branch length.
+Alternatively, to remove only monophyletic tips and keep the sequence with the shortest terminal branch length.
 
 	python mask_tips_by_taxonID_genomes.py <tre files directory>
 	
 
-##### Trim spurious tips with [TreeShrink](https://github.com/uym2/TreeShrink)
+### 3.7 Trim spurious tips with [TreeShrink](https://github.com/uym2/TreeShrink)
+if necessesary, otherwise procede to step 3.8
 
 	python tree_shrink_wrapper.py <input directory> <tree file extension> <quantile>
 
