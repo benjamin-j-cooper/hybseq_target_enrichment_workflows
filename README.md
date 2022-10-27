@@ -219,6 +219,12 @@ see HybPiper documentation on GITHub for R script to generate heatmap
 
 # Part 3
 ## 3.1 Make outgroups from genomes 
+download fasta file for genome CDS of your choosing
+in this example, I use bet vulgaris
+
+run blast2fasta 
+
+followed by targets2hybpiper_directory
 
 
 # Part 4 
