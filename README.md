@@ -51,6 +51,8 @@ See the [hybpiper help page](https://github.com/mossmatters/HybPiper/wiki/Troubl
 	mkdir -p /{project_directory}/trimmed_reads/trimm_stats
 	mkdir -p /{project_directory}/trimmed_reads/fastqc
 	mkdir -p /{project_directory}/hybpiper_output/orthology
+	mkdir -p /{project_directory}/hybpiper_output/outgroup_genomes
+	
 
 ### 1.1.2. Make sample files
 first cd in into the raw_reads directory
@@ -219,13 +221,20 @@ see HybPiper documentation on GITHub for R script to generate heatmap
 
 # Part 3
 ## 3.1 Make outgroups from genomes 
-download fasta file for genome CDS of your choosing
-in this example, I use bet vulgaris
+In your outgroup_genomes directory in your hybpiper_output directory, make a directory for each outgroup
 
-run blast2fasta 
+	cd outgroup_genomes
+	mkdir beta_vulgaris
+	
+download the fasta files for the genome CDS's of your choosing into the outgroups' directory. In this example, I use [beta vulgaris](https://www.ncbi.nlm.nih.gov/nuccore/NC_059019.1?report=fasta) and downloaded the CDS manually onto my computer (you could use NCBI command line tools to do this directly to your remote workstation) and then I used filezilla to upload to my project directory.
 
-followed by targets2hybpiper_directory
+Then, for each outgroup from the outgroups' named folder run [blast2fasta.py](https://bitbucket.org/Calylophus/utilities/) referencing the target file you used for hybpiper:
 
+	python blast2fasta.py -i EL10_2_2.cdna.fa -o beta_vulgaris -q ../../caryophyllaceae_filtered_target_file.fasta -t nucl
+
+followed by [targets2hybpiper_directory](https://bitbucket.org/Calylophus/utilities/), referencing the genelist.txt file you created earlier in the hybpiper_output folder.
+
+	python targets2hybpiper_directory.py -s beta_vulgaris_CDS_outgroup -g ../../genelist.txt
 
 # Part 4 
 ### 4.1 paralog investigator
