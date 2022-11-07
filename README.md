@@ -220,21 +220,28 @@ save gene_lengths.txt to computer
 see HybPiper documentation on GITHub for R script to generate heatmap
 
 # Part 3
-## 3.1 Make outgroups from genomes 
+## 3.1 Make outgroups from genomes		
 In your outgroup_genomes directory in your hybpiper_output directory, make a directory for each outgroup
 
 	cd outgroup_genomes
 	mkdir beta_vulgaris
 	
-download the fasta files for the genome CDS's of your choosing into the outgroups' directory. In this example, I use [beta vulgaris](https://www.ncbi.nlm.nih.gov/nuccore/NC_059019.1?report=fasta) and downloaded the CDS manually onto my computer (you could use NCBI command line tools to do this directly to your remote workstation) and then I used filezilla to upload to my project directory.
+Download the fasta files for the genome CDS's of your choosing into the outgroups' directory. In this example, I use [beta vulgaris](https://www.ncbi.nlm.nih.gov/nuccore/NC_059019.1?report=fasta) and downloaded the CDS manually onto my computer (you could use NCBI command line tools to do this directly to your remote workstation) and then I used filezilla to upload to my project directory.
 
 Then, for each outgroup from the outgroups' named folder run [blast2fasta.py](https://bitbucket.org/Calylophus/utilities/) referencing the target file you used for hybpiper:
 
 	python blast2fasta.py -i EL10_2_2.cdna.fa -o beta_vulgaris -q ../../caryophyllaceae_filtered_target_file.fasta -t nucl
 
-followed by [targets2hybpiper_directory](https://bitbucket.org/Calylophus/utilities/), referencing the genelist.txt file you created earlier in the hybpiper_output folder.
+Followed by [targets2hybpiper_directory](https://bitbucket.org/Calylophus/utilities/), referencing the genelist.txt file you created earlier in the hybpiper_output directory.
 
-	python targets2hybpiper_directory.py -s beta_vulgaris_CDS_outgroup -g ../../genelist.txt
+	python targets2hybpiper_directory.py -s beta_vulgaris_CDS_outgroup -g ../../genelist.txt		
+
+*Make sure you at the chosen names of your outgroups' directory (-s) from this step to the sample_names.txt file located in the hybpiper_output directory.		
+Finally, copy the newly created hybpiper-structured outgroup directory and subdirectories to your hybpiper_output root directory:
+
+	cp -r beta_vulgaris_CDS_outgroup ../../		
+
+Now you are ready to gather assemblies from hybpiper (including outgroups) by gene using hybpipers built in tools.
 
 # Part 4 
 ### 4.1 paralog investigator
