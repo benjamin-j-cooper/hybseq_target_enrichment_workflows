@@ -219,6 +219,38 @@ this is for making the gene_recovery_heatmap with the R script provided with the
 save gene_lengths.txt to computer
 see HybPiper documentation on GITHub for R script to generate heatmap
 
+### 2.5 Make genelist.txt file from target_file.fasta
+To do this, I made a copy of my target_file.fasta and opened the copy in a text editor on my local computer (I used BBedit, but you can use a text editor of your choosing).		
+Using find and replace with RegEx, I broke each fasta header and sequence into capture groups. For my fasta headers: 
+
+	>Arath-4471E01
+	AACGTGGTTGAAGATAAAGAAAGGCTTGAGACTGCTAATACAGATTGGATGCATAAGTAC
+	AAAGGATCTAGTAAGCTGATGCTCTTGCCCAAGAATACACAAGAG
+	>NHUA-4471E01
+	AATGTGATTGAAGATGAAGACGCGCTTCTCTTTGCAAACACTGATTGGATGCGAAAATAT
+	AAGGGCTCCAGTAAGCTTTTGCTACAGCCTAGAACCACTCAAGAG
+	>AJFN-4471E01
+	AATGTTATACAGGATGAAGAGAAACTGAATACTGCAAACTCCGATTGGATGCGGAAATAC
+	AAAGGCTCAAGTAAGCTTATGCTCCAACCTAGGAGCACCGAGGAG
+
+My RegEx looked something like this, which is fairly generic and should work for most hybpiper formatted target files:
+
+find:
+
+	(>[A-Za-z]*-)([A-Za-z0-9]*\n)([A-Z\n]*)
+	
+replace:
+
+	\2
+
+Using Capture group \2 as the replace statement left me with a list of gene names in this format:
+
+	4471E01
+	4471E01
+	4471E01
+
+Save this file as genelist.txt in your hybpiper_output directory
+
 # Part 3
 ## 3.1 Make outgroups from genomes		
 In your outgroup_genomes directory in your hybpiper_output directory, make a directory for each outgroup
