@@ -249,7 +249,8 @@ Using Capture group \2 as the replace statement left me with a list of gene name
 	4471E01
 	4471E01
 
-Save this file as genelist.txt in your hybpiper_output directory
+Because my target file had multiple samples per gene, I was then left with duplicate gene names. To easily remove duplicated I used the "process duplicate lines..." tool in the Text menu in BBedit. 
+With duplicates removed from the the gene list, save this file as genelist.txt in your hybpiper_output directory
 
 # Part 3
 ## 3.1 Make outgroups from genomes		
