@@ -2,7 +2,7 @@
 
 
 #### This repository contains instructions and scripts for running the hybpiper program with orthology inference.
-#### It is intended to be used with target enrichment data (e.g. Hyb-Seq), however there are options to include data from genomes (see [plastome wiki page](/Target enrichment plastome analysis)) or transcriptomes (see part #####)
+#### It is intended to be used with target enrichment data (e.g. Hyb-Seq), however there are options to include data from genomes (see [plastome wiki page]([wiki](https://github.com/benjamin-j-cooper/hybseq_target_enrichment_workflows.wiki/Target enrichment plastome analysis)) or transcriptomes (see part #####)
 #### These instructions rely mainly on scripts from [Phylogenomic dataset construction respository](https://bitbucket.org/yanglab/phylogenomic_dataset_construction/src/master/) and [target_enrichment_orthology](https://bitbucket.org/dfmoralesb/target_enrichment_orthology/src/master/) plus some new ones.
 
 #### If using the scrips from this repository you must cite
