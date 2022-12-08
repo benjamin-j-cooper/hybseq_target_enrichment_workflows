@@ -1,7 +1,7 @@
 import string, sys
 from shlex import shlex
 from phylo3 import Node
-import StringIO
+from StringIO import StringIO
 
 
 class Tokenizer(shlex):
@@ -32,8 +32,9 @@ def parse(input, ttable=None):
     or a string (converted to StringIO)
     """
     if type(input) is str:
-        input = StringIO.StringIO(input)
-    
+        #input = io.BytesIO(input)
+        input = StringIO(input)
+
     start_pos = input.tell()
     tokens = Tokenizer(input)
 
@@ -62,11 +63,11 @@ def parse(input, ttable=None):
         elif token == ')':
             rp = rp+1
             node = node.parent
-            
+
         elif token == ',':
 ##             if lp == rp:
             node = node.parent
-            
+
         # branch length
         elif token == ':':
             token = tokens.get_token()
@@ -102,7 +103,7 @@ def parse(input, ttable=None):
 
         prev_tok = token
         #print token, node
-        
+
 
     input.seek(start_pos)
 
@@ -118,7 +119,7 @@ def parse(input, ttable=None):
 def traverse(node):
     if node.istip: return node.back
     else: return node.next.back
-        
+
 def to_string(node, length_fmt=":%s"):
     if not node.istip:
         node_str = "(%s)%s" % \
@@ -140,7 +141,7 @@ def to_string(node, length_fmt=":%s"):
     return s
 
 tostring = to_string
-        
+
 def parse_from_file(filename):
     if filename == '-':
         file = sys.stdin

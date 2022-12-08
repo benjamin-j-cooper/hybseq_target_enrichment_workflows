@@ -15,16 +15,16 @@ def check_countrast_outlier(node0,node1,above0,above1,relative_cutoff):
 		if above0 == 0.0 or above1/above0 > 10 :
 			return node1
 	return None
-	
+
 def remove_a_tip(root,tip_node):
 	node = tip_node.prune()
 	if len(root.leaves()) > 3:
 		node,root = remove_kink(node,root)
 		return root
 	else:
-		print "Less than four tips left"
+		print ("Less than four tips left")
 		return None
-	
+
 def trim(curroot,relative_cutoff,absolute_cutoff):
 	if curroot.nchildren == 2:
 		temp,root = remove_kink(curroot,curroot)
@@ -66,20 +66,20 @@ def trim(curroot,relative_cutoff,absolute_cutoff):
 						above1,above2 = child1.data['len'], child2.data['len']
 						outlier = check_countrast_outlier(child1,child2,above1,above2,relative_cutoff)
 						if outlier != None:
-							print above1, above2
+							print (above1, above2)
 							curroot = remove_a_tip(curroot,outlier)
 							going = True #need to keep checking
 							keep_checking = False #to break the nested loop
 							break
 					if not keep_checking: break
 	return curroot
-	
+
 def main(DIR,tree_file_ending,relative_cut,absolute_cut):
 	if DIR[-1] != "/": DIR += "/"
 	filecount = 0
 	for i in os.listdir(DIR):
 		if i.endswith(tree_file_ending):
-			print i
+			print (i)
 			filecount += 1
 			with open(DIR+i,"r") as infile:
 				intree = newick3.parse(infile.readline())
@@ -89,13 +89,11 @@ def main(DIR,tree_file_ending,relative_cut,absolute_cut):
 					outfile.write(newick3.tostring(outtree)+";\n")
 	assert filecount > 0, \
 		"No file end with "+tree_file_ending+" found in "+DIR
-		
+
 if __name__ == "__main__":
 	if len(sys.argv) != 5:
-		print "python trim_tips.py DIR tree_file_ending relative_cutoff absolute_cutoff"
+		print ("python trim_tips.py DIR tree_file_ending relative_cutoff absolute_cutoff")
 		sys.exit(0)
 
 	DIR,tree_file_ending,relative_cut,absolute_cut = sys.argv[1:]
 	main(DIR,tree_file_ending,relative_cut,absolute_cut)
-
-	

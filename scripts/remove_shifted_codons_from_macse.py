@@ -14,8 +14,8 @@ def codon(inDIR,file_ending,outDIR):
 	if os.path.isabs(outDIR) == False: outDIR = os.path.abspath(outDIR)
 	if outDIR[-1] != "/": outDIR += "/"
 	if outDIR == ".": outDIR = os.getcwd()
-	
-	
+
+
 	filecount = 0
 
 	codon_shift_array = ["!!A", "!!C", "!!G", "!!T", "A!!", "C!!", "G!!", "T!!", "!A!", "!C!", "!G!", "!T!", "AC!", "AG!", "AT!", "AA!", "CA!", "CG!", "CT!", "CC!", "GA!", "GC!", "GT!", "GG!", "TA!", "TC!", "TG!", "TT!", "!AC", "!AG", "!AT", "!AA", "!CA", "!CG", "!CT", "!CC", "!GA", "!GC", "!GT", "!GG", "!TA", "!TC", "!TG", "!TT", "A!C", "A!G", "A!T", "A!A", "C!A", "C!G", "C!T", "C!C", "G!A", "G!C", "G!T", "G!G", "T!A", "T!C", "T!G", "T!T",
@@ -25,9 +25,9 @@ def codon(inDIR,file_ending,outDIR):
 
 	for i in os.listdir(inDIR):
 		if i.endswith(file_ending):
-			print i
+			print (i)
 			filecount += 1
-						
+
 			basename = os.path.splitext(i)[0]
 			new_aln = outDIR+basename+".fs.aln"
 			file=open(new_aln,'w')
@@ -40,20 +40,20 @@ def codon(inDIR,file_ending,outDIR):
 						codon = record.seq[index:index+3]
 						if codon in codon_shift_array:
 							tempRecordSeq[index:index+3] = "---"
-			        	record.seq = Seq("".join(tempRecordSeq))
+						record.seq = Seq("".join(tempRecordSeq))
 				else:
 					record.seq == record.seq
-					
+
 				id =record.id
 				seq=str(record.seq)
 				file.write(">" + id + "\n" + seq + "\n")
 
 			file.close()
-			
+
 	assert filecount > 0, \
 		"No file end with "+file_ending+" found in "+inDIR
-			
-			
+
+
 
 
 def aa(inDIR, file_ending, outDIR):
@@ -63,17 +63,17 @@ def aa(inDIR, file_ending, outDIR):
 	if os.path.isabs(outDIR) == False: outDIR = os.path.abspath(outDIR)
 	if outDIR[-1] != "/": outDIR += "/"
 	if outDIR == ".": outDIR = os.getcwd()
-	
-	
+
+
 	filecount = 0
 
 	aa_shiflt_array = ["!", "*"]
-	
+
 	for i in os.listdir(inDIR):
 		if i.endswith(file_ending):
-			print i
-			filecount += 1	
-								
+			print (i)
+			filecount += 1
+
 			basename = os.path.splitext(i)[0]
 			new_aln = outDIR+basename+".fs.aln"
 			aln = SeqIO.parse(inDIR+i, "fasta")
@@ -88,23 +88,23 @@ def aa(inDIR, file_ending, outDIR):
 						record.seq = Seq("".join(tempRecordSeq))
 				else:
 					record.seq == record.seq
-					
+
 				id =record.id
 				seq=str(record.seq)
 				file.write(">" + id + "\n" + seq + "\n")
 
 			file.close()
 
-			
+
 	assert filecount > 0, \
 		"No file end with "+file_ending+" found in "+inDIR
-			
+
 
 if __name__ == "__main__":
 	if len(sys.argv) != 5:
-		print "Usage:"
-		print "python remove_shifted_codons_from_macse.py inDIR, file_ending, outDIR, alingment_type [nt or aa]"
-	else:	
+		print ("Usage:")
+		print ("python remove_shifted_codons_from_macse.py inDIR, file_ending, outDIR, alingment_type [nt or aa]")
+	else:
 		assert sys.argv[4] == "nt" or sys.argv[4] == "aa"
 		"alignment type has to be either nt or aa"
 		if sys.argv[4] == "nt":
@@ -112,4 +112,4 @@ if __name__ == "__main__":
 
 		else:
 			aa(inDIR=sys.argv[1],file_ending=sys.argv[2],outDIR=sys.argv[3])
-	sys.exit(0)		
+	sys.exit(0)

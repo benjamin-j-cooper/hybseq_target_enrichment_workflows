@@ -1,0 +1,3 @@
+[submodule "phylo_genomic_utilities"]
+	path = phylo_genomic_utilities
+	url = https://github.com/benjamin-j-cooper/phylo_genomic_utilities.git

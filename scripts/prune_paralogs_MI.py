@@ -13,11 +13,11 @@ import newick3,phylo3,os,sys
 import trim_tips
 import tree_utils
 
-OUTPUT_1to1_ORTHOLOGS = True 
+OUTPUT_1to1_ORTHOLOGS = True
 
 def get_clusterID(filename):
 	return filename.split(".")[0]
-	
+
 def get_front_score(node):
 	front_labels = tree_utils.get_front_labels(node)
 	num_labels = len(front_labels)
@@ -25,7 +25,7 @@ def get_front_score(node):
 	if num_taxa == num_labels:
 		return num_taxa
 	return -1
-	
+
 def get_back_score(node,root):
 	back_labels = tree_utils.get_back_labels(node,root)
 	num_labels = len(back_labels)
@@ -33,10 +33,10 @@ def get_back_score(node,root):
 	if num_taxa == num_labels:
 		return num_taxa
 	return -1
-	
+
 def prune(score_tuple,node,root,pp_trees):
 	if score_tuple[0] > score_tuple[1]: #prune front
-		print "prune front"
+		print ("prune front")
 		pp_trees.append(node)
 		par = node.prune()
 		if par != None and len(root.leaves()) >= 3:
@@ -49,19 +49,19 @@ def prune(score_tuple,node,root,pp_trees):
 			if par.parent != None:
 				par,root = tree_utils.remove_kink(par,root)
 		node.prune()
-		print "prune back"
+		print ("prune back")
 		pp_trees.append(root)
 		if len(node.leaves()) >= 3:
 			node,newroot = tree_utils.remove_kink(node,node)
 		else:
 			newroot = node
 		return newroot,False #original root was cutoff, not done yet
-			
+
 
 if __name__ == "__main__":
 	if len(sys.argv) != 7:
-		print "python prune_paralogs_MI.py homoTreeDIR tree_file_ending relative_tip_cutoff absolute_tip_cutoff MIN_TAXA outDIR"
-		print "LONG_TIP_CUTOFF is typically same value of the previous LONG_TIP_CUTOFF"
+		print ("python prune_paralogs_MI.py homoTreeDIR tree_file_ending relative_tip_cutoff absolute_tip_cutoff MIN_TAXA outDIR")
+		print ("LONG_TIP_CUTOFF is typically same value of the previous LONG_TIP_CUTOFF")
 		sys.exit(0)
 
 	inDIR = sys.argv[1]+"/"
@@ -72,23 +72,23 @@ if __name__ == "__main__":
 
 	for i in os.listdir(inDIR):
 		if not i.endswith(tree_file_ending): continue
-		print i
+		print (i)
 		with open(inDIR+i,"r") as infile: #only 1 tree in each file
 			intree = newick3.parse(infile.readline())
 		curroot = intree
 		pp_trees = []
-		
+
 		if get_front_score(curroot) >= MIN_TAXA: #No need to prune
-			print "No pruning needed"
+			print ("No pruning needed")
 			if OUTPUT_1to1_ORTHOLOGS:
 				os.system("cp "+inDIR+i+" "+outDIR+get_clusterID(i)+"_1to1ortho.tre")
 		else: #scoring the tree
 			going = True
 			pp_trees = []
-			
+
 			while going: #python version of do..while loop
 				highest = 0
-				highest_node = None 
+				highest_node = None
 				score_hashes = {} #key is node, value is a tuple (front_score,back_score)
 				for node in curroot.iternodes():
 					front_score = get_front_score(node)
@@ -105,7 +105,7 @@ if __name__ == "__main__":
 				else:
 					going = False
 					break
-		
+
 		if len(pp_trees) > 0:
 			count = 1
 			for tree in pp_trees:
@@ -113,6 +113,6 @@ if __name__ == "__main__":
 					node,tree = trim_tips.remove_kink(tree,tree)
 				tree = trim_tips.trim(tree,relative_tip_cutoff,absolute_tip_cutoff)
 				if tree != None and len(tree.leaves()) >= MIN_TAXA:
-					with open(outDIR+get_clusterID(i)+"_MIortho"+str(count)+".tre","w") as outfile:	
+					with open(outDIR+get_clusterID(i)+"_MIortho"+str(count)+".tre","w") as outfile:
 						outfile.write(newick3.tostring(tree)+";\n")
 					count += 1

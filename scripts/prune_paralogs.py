@@ -24,100 +24,19 @@ set OUTPUT_1to1_ORTHOLOGS to False
 
 import phylo3,newick3,os,sys
 
-OUTPUT_1to1_ORTHOLOGS = False
+OUTPUT_1to1_ORTHOLOGS = True
 
-INGROUPS = ["Spergularia_heldreichii_PAFTOL_4935",
-"Petrorhagia_dubia_PAFTOL_4936",
-"Dianthus_fruticosus_PAFTOL_6029",
-"Paronychia_argentea_PAFTOL_19651",
-"Paronychia_kapela_PAFTOL_19653",
-"Herniaria_glabra_PAFTOL_19655",
-"Drymaria_cordata_PAFTOL_19657",
-"Polycarpaea_repens_PAFTOL_19659",
-"Loeflingia_hispnica_PAFTOL_19661",
-"Pycnophyllum_bryoides_PAFTOL_19663",
-"Cardionema_ramosissima_PAFTOL_19665",
-"Gypsophila_repens_PAFTOL_19667",
-"Acanthophyllum_mucronatum_PAFTOL_19669",
-"Spergularia_heldreichii_PAFTOL_4935",
-"Petrorhagia_dubia_PAFTOL_4936",
-"Dianthus_fruticosus_PAFTOL_6029",
-"Paronychia_argentea_PAFTOL_19651",
-"Paronychia_kapela_PAFTOL_19653",
-"Herniaria_glabra_PAFTOL_19655",
-"Drymaria_cordata_PAFTOL_19657",
-"Polycarpaea_repens_PAFTOL_19659",
-"Loeflingia_hispnica_PAFTOL_19661",
-"Pycnophyllum_bryoides_PAFTOL_19663",
-"Cardionema_ramosissima_PAFTOL_19665",
-"Gypsophila_repens_PAFTOL_19667",
-"Acanthophyllum_mucronatum_PAFTOL_19669",
-"Spergularia_heldreichii_PAFTOL_4935",
-"Petrorhagia_dubia_PAFTOL_4936",
-"Dianthus_fruticosus_PAFTOL_6029",
-"Paronychia_argentea_PAFTOL_19651",
-"Paronychia_kapela_PAFTOL_19653",
-"Herniaria_glabra_PAFTOL_19655",
-"Drymaria_cordata_PAFTOL_19657",
-"Polycarpaea_repens_PAFTOL_19659",
-"Loeflingia_hispnica_PAFTOL_19661",
-"Pycnophyllum_bryoides_PAFTOL_19663",
-"Cardionema_ramosissima_PAFTOL_19665",
-"Gypsophila_repens_PAFTOL_19667",
-"Acanthophyllum_mucronatum_PAFTOL_19669",
-"Moehringia_muscosa_PAFTOL_19671",
-"Pseudostellaria_heterophylla_PAFTOL_19673",
-"Stellaria_graminea_PAFTOL_19675",
-"Mesostemma_kotschyanum_subsp_afghanicum_PAFTOL_19677",
-"Cerastium_arvense_PAFTOL_19679",
-"Sagina_procumbens_PAFTOL_19681",
-"Minuartia_recurva_PAFTOL_19683",
-"Bufonia_macropetala_PAFTOL_19685",
-"Drypis_spnosa_PAFTOL_19687",
-"Habrosia_spnuliflora_PAFTOL_19689",
-"Scleranthus_annuus_PAFTOL_19691",
-"Mcneillia_graminifolia_subsp_rosanoi_PAFTOL_19693",
-"Arenaria_serpyllifolia_PAFTOL_19695",
-"Stellaria_Holostea_PAFTOL_19697",
-"Odontostemma_leucasterium_PAFTOL_19699",
-"Arenaria_globiflora_PAFTOL_19701",
-"Sabulina_tenuifolia_PAFTOL_19703",
-"Sabulina_decandra_PAFTOL_19705",
-"Stellaria_filiformis_GAP_22101",
-"Colobanthus_apetalus_GAP_22145",
-"Sagina_maritima_GAP_22425",
-"Scleranthus_pungens_GAP_22461",
-"Colobanthus_apetalus_GAP_23267",
-"Sagina_maritima_GAP_23321",
-"Scleranthus_pungens_GAP_23323",
-"Stellaria_filiformis_GAP_23325",
-"Lepyrodiclis_holosteoides_PAFTOL_25171",
-"Polytepalum_angolense_PAFTOL_25173",
-"Augustea_suffruticosa_PAFTOL_25177",
-"Cerastium_lanceolatum_PAFTOL_25201",
-"Cometes_abyssinica_PAFTOL_25297",
-"Graecobolanthus_graecus_PAFTOL_25313",
-"Thylacosprmum_caesptosum_PAFTOL_25331",
-"Rhodalsine_geniculata_PAFTOL_25341",
-"Bolanthus_filicaulis_PAFTOL_25343",
-"Shivparvatia_glanduligera_PAFTOL_25397",
-"Gymnocarpos_decander_PAFTOL_25415",
-"Silene_alpestris_PAFTOL_25435",
-"Stellaria_monosprma_PAFTOL_25461",
-"Achyronychia_cooperi_PAFTOL_25481",
-"Stellaria_obtusa_PAFTOL_25483",
-"Stipulicida_setacea_PAFTOL_25485",
-"Arenaria_patula_PAFTOL_25487",
-"Stellaria_filiformis_GAP_26429",
-"Colobanthus_apetalus_GAP_26443",
-"Sagina_maritima_GAP_26633",
-"Scleranthus_pungens_GAP_26669"]
-OUTGROUPS = ["beta_vulgaris_CDS_outgroup",
-"mesembryanthemum_crystallinum_CDS_outgroup",
-"simmondsia_chinensis_CDS_outgroup",
-"spinacia_oleracea_CDS_outgroup"]
+"""
+INGROUPS = ["Alchemilla_alpina","Alchemilla_colura","Alchemilla_cryptantha","Alchemilla_decumbens","Alchemilla_ellenbeckii","Alchemilla_elongata","Alchemilla_fischeri","Alchemilla_fissa","Alchemilla_flabellata","Alchemilla_glabra","Alchemilla_haumanii","Alchemilla_heptagona","Alchemilla_hildebrandtii","Alchemilla_indivisa","Alchemilla_japonica","Alchemilla_johnstonii","Alchemilla_kiwuensis","Alchemilla_lapeyrousii","Alchemilla_microbetula","Alchemilla_pentaphyllea","Alchemilla_plicata","Alchemilla_roccatii","Alchemilla_rutenbergii","Alchemilla_schizophylla","Alchemilla_splendens","Alchemilla_stuhlmannii","Alchemilla_subnivalis","Alchemilla_subsericea","Alchemilla_triphylla","Alchemilla_woodii","Alchemilla_xanthochlora","Aphanes_arvensis","Aphanes_occidentalis","Aphanes_sp","Aphanes_cotopaxiensis","Aphanes_microcarpa","Aphanes_neglecta","Lachemilla_angustata","Lachemilla_equisetiformis","Lachemilla_llanganatensis","Lachemilla_moritziana","Lachemilla_pringlei","Lachemilla_ramosissima","Lachemilla_sibbaldiifolia","Lachemilla_standleyi","Lachemilla_velutina","Alchemilla_argyrophylla","Alchemilla_mollis","Aphanes_australis","Lachemilla_andina","Lachemilla_aphanoides","Lachemilla_barbata","Lachemilla_diplophylla","Lachemilla_erodiifolia","Lachemilla_galioides","Lachemilla_hirta","Lachemilla_hispidula","Lachemilla_jamesonii","Lachemilla_mandoniana","Lachemilla_nivalis","Lachemilla_orbiculata","Lachemilla_pectinata","Lachemilla_pinnata","Lachemilla_polylepis","Lachemilla_procumbens","Lachemilla_tanacetifolia","Lachemilla_verticillata","Lachemilla_vulcanica","Chamaerhodos_erecta","Comarum_palustre","Dasiphora_fruticosa","Drymocallis_arguta","Farinopsis_salesoviana","Sibbaldia_procumbens","Sibbaldianthe_adpressa","Sibbaldianthe_bifurca","Potaninia_mongolica","Fragaria_vesca","Drymocallis_glandulosa"]
+OUTGROUPS = ["Rosa_woodsii","Potentilla_indica","Sanguisorba_menziesii"]
+"""
+INGROUPS = ["A","B","C","E","F"]
+OUTGROUPS = ["D"]
+"""
 
-
+INGROUPS = ["Diabelia_serrata_E123","Diabelia_sanguinea_E301","Diabelia_ionostachya_stenophylla_E306","Diabelia_ionostachya_wenzhouensis_E204","Diabelia_spathulata_spathulata_E198","Abelia_macrotera_E110","Abelia_uniflora_E51","Abelia_forrestii_E37","Abelia_chinensis_ionandra_E30","Abelia_chinensis_E206","Kolkwitzia_amabilis_E9","Vesalea_occidentalis_E96","Vesalea_mexicana_E93","Vesalea_coriacea_E89","Vesalea_coriacea_E284","Vesalea_floribunda_E92","Linnaea_borealis_E14","Linnaea_borealis_E59","Dipelta_floribunda_E56","Dipelta_floribunda_E57","Dipelta_floribunda_E55","Scabiosa_canescens_E223","Scabiosa_tschiliensis_E21","Dipsacus_japonicus_E23","Valeriana_officinalis_E27","Valeriana_urticifolia_scorpioides_E219","Centranthus_ruber_E220","Valerianella_dentata_E217","Zabelia_biflora_E100","Zabelia_integrifolia_E15","Zabelia_dielsii_E108","Zabelia_dielsii_E286","Zabelia_triflora_E276","Morina_longifolia_E20","Acanthocalyx_alba_E19","Lonicera_korolkowii_E212","Lonicera_ligustrina_pileata_E74","Lonicera_confusa_E193","Lonicera_arizonica_E269","Symphoricarpos_orbiculatus_E237","Heptacodium_miconioides_E28","Weigela_florida_E99","Diervilla_lonicera_E331"]
+OUTGROUPS = ["Viburnum_opulus_americanum_E162","Sambucus_williamsii_E208","Sambucus_nigra_E207"]
+"""
 #given tip label, return taxon name identifier
 
 
@@ -262,7 +181,7 @@ def prune_paralogs_from_rerooted_homotree(root):
 
 if __name__ == "__main__":
 	if len(sys.argv) != 5:
-		print ("python python prune_paralogs_MO.py homoTreeDIR tree_file_ending minimal_taxa outDIR")
+		print "python python prune_paralogs_MO.py homoTreeDIR tree_file_ending minimal_taxa outDIR"
 		sys.exit(0)
 
 	inDIR = sys.argv[1]+"/"
@@ -272,7 +191,7 @@ if __name__ == "__main__":
 
 	for i in os.listdir(inDIR):
 		if not i.endswith(tree_file_ending): continue
-		print (i)
+		print i
 
 		#read in the tree and check number of taxa
 		outID = outDIR+get_clusterID(i)
@@ -293,17 +212,17 @@ if __name__ == "__main__":
 			#check to make sure that the ingroup and outgroup names were set correctly
 			for name in names:
 				if name not in INGROUPS and name not in OUTGROUPS:
-					print ("check name",name)
+					print "check name",name
 					sys.exit()
 			outgroup_names = get_front_outgroup_names(curroot)
 
 			#if no outgroup at all, do not attempt to resolve gene duplication
 			if len(outgroup_names) == 0:
-				print ("duplicated taxa in unrooted tree")
+				print "duplicated taxa in unrooted tree"
 
 			#skip the homolog if there are duplicated outgroup taxa
 			elif len(outgroup_names) > len(set(outgroup_names)):
-				print ("outgroup contains taxon repeats")
+				print "outgroup contains taxon repeats"
 
 			else: #at least one outgroup present and there's no outgroup duplication
 				if curroot.nchildren == 2: #need to reroot
@@ -317,5 +236,5 @@ if __name__ == "__main__":
 					if len(set(get_front_names(curroot))) >= MIN_TAXA:
 						with open(outID+".ortho.tre","w") as outfile:
 							outfile.write(newick3.tostring(ortho)+";\n")
-					else: print ("not enough taxa after pruning")
-				else: print ("outgroup non-monophyletic")
+					else: print "not enough taxa after pruning"
+				else: print "outgroup non-monophyletic"

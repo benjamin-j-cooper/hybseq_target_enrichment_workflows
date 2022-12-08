@@ -15,7 +15,7 @@ def get_name(label):
 	else: name = label
 	if name in same: return same[name]
 	return name
-	
+
 def get_clusterID(filename):
 	return filename.split(".")[0]
 
@@ -29,7 +29,7 @@ def get_back_labels(node,root):
 	all_labels = get_front_labels(root)
 	front_labels = get_front_labels(node)
 	return set(all_labels) - set(front_labels)
-	
+
 def get_front_names(node):
 	"""given a node, return a list of front tip taxonIDs
 	list may contain identical taxonIDs"""
@@ -75,7 +75,7 @@ def pass_boot_filter(node,min_ave_boot):
 	if count == 0: #extracted clades with only two tips
 		return True
 	boot_average = total / float(count)
-	print boot_average
+	print (boot_average)
 	return boot_average >= float(min_ave_boot)
 
 def get_ortho_from_rooted_inclade(inclade):

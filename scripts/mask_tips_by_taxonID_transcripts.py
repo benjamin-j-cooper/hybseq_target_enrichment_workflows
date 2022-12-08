@@ -1,5 +1,5 @@
 """
-Input is a dir of trees that end with ".tt". Change INTREE_FILE_ENDING if needed 
+Input is a dir of trees that end with ".tt". Change INTREE_FILE_ENDING if needed
 
 Mask both mono- and paraphyletic tips that belong to the same taxon
 If only mask monophyletic tips, comment out this line:
@@ -16,7 +16,7 @@ INTREE_FILE_ENDING = ".tt"
 def get_clusterID(filename):
 	"""given a file name return the cluster id"""
 	return filename.split(".")[0]
-	
+
 def mask_monophyletic_tips(curroot,unamb_chrDICT):
 	going = True
 	while going and len(curroot.leaves()) >= 4:
@@ -27,7 +27,7 @@ def mask_monophyletic_tips(curroot,unamb_chrDICT):
 				if sister.istip and get_name(node.label)==get_name(sister.label): #masking
 					#print node.label,unamb_chrDICT[node.label],sister.label,unamb_chrDICT[sister.label]
 					if unamb_chrDICT[node.label] > unamb_chrDICT[sister.label]:
-						node = sister.prune()			
+						node = sister.prune()
 					else: node = node.prune()
 					if len(curroot.leaves()) >= 4:
 						if (node==curroot and node.nchildren==2) or (node!=curroot and node.nchildren==1):
@@ -35,7 +35,7 @@ def mask_monophyletic_tips(curroot,unamb_chrDICT):
 					going = True
 					break
 	return curroot
-	
+
 def mask_paraphyletic_tips(curroot,unamb_chrDICT):
 	going = True
 	while going and len(curroot.leaves()) >= 4:
@@ -56,14 +56,14 @@ def mask_paraphyletic_tips(curroot,unamb_chrDICT):
 					going = True
 					break
 	return curroot
-	
+
 def main(treDIR,clnDIR,para,intree_file_ending=INTREE_FILE_ENDING):
 	if treDIR[-1] != "/": treDIR += "/"
 	if clnDIR[-1] != "/": clnDIR += "/"
 	assert para=="y" or para=="n", "mask paraphyletic tips? (y/n)"
 	mask_para = True if para == "y" else False
 	filecount = 0
-	
+
 	filematch = {} #key is clusterID, value is the .aln-cln file
 	for i in os.listdir(clnDIR):
 		if i.endswith(".aln-cln"):
@@ -71,12 +71,12 @@ def main(treDIR,clnDIR,para,intree_file_ending=INTREE_FILE_ENDING):
 			assert clusterID not in filematch, \
 				"The clusterID "+clusterID+" repeats in "+clnDIR
 			filematch[clusterID] = i
-			
+
 	for i in os.listdir(treDIR):
 		if i.endswith(intree_file_ending):
 			with open(treDIR+i,"r") as infile:
 				intree = newick3.parse(infile.readline())
-			print i
+			print (i)
 			clusterID = get_clusterID(i)
 			filecount += 1
 			chrDICT = {} #key is seqid, value is number of unambiguous chrs
@@ -90,11 +90,11 @@ def main(treDIR,clnDIR,para,intree_file_ending=INTREE_FILE_ENDING):
 				outfile.write(newick3.tostring(curroot)+";\n")
 	assert filecount > 0, \
 		"No file ends with "+intree_file_ending+" found in "+treDIR
-	
+
 if __name__ == "__main__":
 	if len(sys.argv) != 4:
-		print "python mask_tips_by_taxonID_transcripts.py treDIR aln-clnDIR mask_paraphyletic(y/n)"
+		print ("python mask_tips_by_taxonID_transcripts.py treDIR aln-clnDIR mask_paraphyletic(y/n)")
 		sys.exit(0)
-		
+
 	treDIR,clnDIR,para = sys.argv[1:]
 	main(treDIR,clnDIR,para)
