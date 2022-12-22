@@ -18,7 +18,7 @@ Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using 
 
 [GNUparallel]
 
-[hybpiper](https://github.com/mossmatters/HybPiper) Version 1.3 (To run this pipeline with Hybpiper 2, see the [target_enrichment_orthology with hybpiper 2 wiki](https://github.com/benjamin-j-cooper/hybseq_target_enrichment_workflows/wiki/Target-Enrichment-Orthology-with-Hybpiper-2))
+[hybpiper](https://github.com/mossmatters/HybPiper) Lagacy version 1.3 (To run this pipeline with Hybpiper 2, see the [target enrichment orthology with hybpiper 2 wiki](https://github.com/benjamin-j-cooper/hybseq_target_enrichment_workflows/wiki/Target-Enrichment-Orthology-with-Hybpiper-2))
 
 [fastqc]
 
