@@ -18,7 +18,7 @@ Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using 
 
 [GNUparallel]
 
-[hybpiper](https://github.com/mossmatters/HybPiper) Version 1.3 (the newer version should work. I recommend downloading using conda, otherwise you will need to also install hybpiper dependencies)
+[hybpiper](https://github.com/mossmatters/HybPiper) Version 1.3 (To run this pipeline with Hybpiper 2, see the [target_enrichment_orthology with hybpiper 2 wiki](https://github.com/benjamin-j-cooper/hybseq_target_enrichment_workflows/wiki/Target-Enrichment-Orthology-with-Hybpiper-2))
 
 [fastqc]
 
@@ -59,7 +59,7 @@ first cd in into the raw_reads directory
 
 	cd raw_reads
 		
-I wrote a custom script to do this next part for the PAFTOL dataset [make_sample_files_from_drive.py](https://bitbucket.org/Calylophus/utilities/src/master/), it produces text files needed for downloading, renaming, and calling samples
+I wrote a custom script to do this next part for the PAFTOL dataset [make_sample_files_from_drive.py](https://github.com/benjamin-j-cooper/phylo_genomic_utilities), it produces text files needed for downloading, renaming, and calling samples
 You can edit this script to make files for your project if it is not part of the PAFTOL project.		
 To run the script:
 
