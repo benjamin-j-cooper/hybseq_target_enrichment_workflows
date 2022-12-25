@@ -12,31 +12,31 @@ Morales-Briones, D.F., B. Gehrke, H. Chien-Hsun Huang, A. Liston, M. Hong. H.E. 
 Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using transcriptomes and low-coverage genomes: improving accuracy and matrix occupancy for phylogenomics. Molecular Biology and Evolution. [doi:10.1093/molbev/msu245](https://doi.org/10.1093/molbev/msu245)
 
 
-### Dependencies needed to run the scripts. 
+# Dependencies
 
 [python2.7]
 
-[GNUparallel]
+[GNUparallel] v### or later
 
 [hybpiper](https://github.com/mossmatters/HybPiper) Legacy version 1.3 (To run this pipeline with Hybpiper 2, see the [target enrichment orthology with hybpiper 2 wiki](https://github.com/benjamin-j-cooper/hybseq_target_enrichment_workflows/wiki/Target-Enrichment-Orthology-with-Hybpiper-2))
 
-[fastqc]
+[fastqc] v## or later
 
-[multiqc]
+[multiqc] v## or later
 
-[trimmomatic]
+[trimmomatic] v## or later
 
-[samtools]
+[samtools] v## or later
 
-[TreeShrink](https://github.com/uym2/TreeShrink) It works now with Version 1.3.2 (older versions won't work)
+[TreeShrink](https://github.com/uym2/TreeShrink) 1.3.2 or later
 
-[RAxML](https://github.com/stamatak/standard-RAxML) Version 8.2.11  (newer versions should work)
+[RAxML](https://github.com/stamatak/standard-RAxML) 8.2.11 or later
 
-[Phyx](https://github.com/FePhyFoFum/phyx)
+[Phyx](https://github.com/FePhyFoFum/phyx) v## or later
 
-[MAFFT](https://mafft.cbrc.jp/alignment/software/) Version 7.307 (newer versions should work)
+[MAFFT](https://mafft.cbrc.jp/alignment/software/) 7.307 or later
 
-[OMM_MACSE](https://bioweb.supagro.inra.fr/macse/index.php?menu=releases)
+[OMM_MACSE](https://bioweb.supagro.inra.fr/macse/index.php?menu=releases) v## or later
 
 ### To run hybpiper, you will need a target file. I recommend making a custom target file with samples from the family of your study. 
 See the [hybpiper help page](https://github.com/mossmatters/HybPiper/wiki/Troubleshooting,-common-issues,-and-recommendations) for other suggestions.		
