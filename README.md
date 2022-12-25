@@ -36,7 +36,7 @@ Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using 
 
 [MAFFT](https://mafft.cbrc.jp/alignment/software/) Version 7.307 (newer versions should work)
 
-[MACSE](https://bioweb.supagro.inra.fr/macse/index.php?menu=releases) Version 2.0.3 (newer versions should work)
+[OMM_MACSE](https://bioweb.supagro.inra.fr/macse/index.php?menu=releases)
 
 ### To run hybpiper, you will need a target file. I recommend making a custom target file with samples from the family of your study. 
 See the [hybpiper help page](https://github.com/mossmatters/HybPiper/wiki/Troubleshooting,-common-issues,-and-recommendations) for other suggestions.		
