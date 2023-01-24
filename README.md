@@ -2,7 +2,8 @@
 
 
 #### This repository contains instructions and scripts for running the hybpiper program with orthology inference.
-#### It is intended to be used with target enrichment data (e.g. Hyb-Seq), however there are options to include data from genomes (see [plastome wiki page](https://github.com/benjamin-j-cooper/hybseq_target_enrichment_workflows/wiki/Target-enrichment-plastome-analysis) ) or transcriptomes (see part #####)
+#### It is intended to be used with target enrichment data (e.g. Hyb-Seq), however there are options to include data from genomes (see [plastome wiki page](https://github.com/benjamin-j-cooper/hybseq_target_enrichment_workflows/wiki/Target-enrichment-plastome-analysis) ).
+
 #### These instructions rely mainly on scripts from [Phylogenomic dataset construction respository](https://bitbucket.org/yanglab/phylogenomic_dataset_construction/src/master/) and [target_enrichment_orthology](https://bitbucket.org/dfmoralesb/target_enrichment_orthology/src/master/) plus some new ones.
 
 #### If using the scrips from this repository you must cite
@@ -14,29 +15,30 @@ Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using 
 
 # Dependencies
 
-[python2.7]
+python2.7 and python 3.9 or later 
+Because both python2 and python3 are currently required for this workflow, I highly recommend using Conda to manage you python installations. this makes it easy to switch between python2 and python3 environments. 
 
-[GNUparallel] v### or later
+[GNUparallel] 2018 version or later
 
 [hybpiper](https://github.com/mossmatters/HybPiper) Legacy version 1.3 (To run this pipeline with Hybpiper 2, see the [target enrichment orthology with hybpiper 2 wiki](https://github.com/benjamin-j-cooper/hybseq_target_enrichment_workflows/wiki/Target-Enrichment-Orthology-with-Hybpiper-2))
 
-[fastqc] v## or later
+[fastqc] v0.11.5 or later
 
-[multiqc] v## or later
+[multiqc] v1.12 or later
 
-[trimmomatic] v## or later
+[trimmomatic] v0.39 or later
 
-[samtools] v## or later
+[samtools] v1.15 or later
 
 [TreeShrink](https://github.com/uym2/TreeShrink) 1.3.2 or later
 
 [RAxML](https://github.com/stamatak/standard-RAxML) 8.2.11 or later
 
-[Phyx](https://github.com/FePhyFoFum/phyx) v## or later
+[Phyx](https://github.com/FePhyFoFum/phyx) v0.1 or later
 
 [MAFFT](https://mafft.cbrc.jp/alignment/software/) 7.307 or later
 
-[OMM_MACSE](https://bioweb.supagro.inra.fr/macse/index.php?menu=releases) v## or later
+[OMM_MACSE](https://bioweb.supagro.inra.fr/macse/index.php?menu=releases) v10.02 or later
 
 ### To run hybpiper, you will need a target file. I recommend making a custom target file with samples from the family of your study. 
 See the [hybpiper help page](https://github.com/mossmatters/HybPiper/wiki/Troubleshooting,-common-issues,-and-recommendations) for other suggestions.		
