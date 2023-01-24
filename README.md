@@ -475,7 +475,6 @@ It outputs the tips that were trimmed in the file .txt and the trimmed trees in 
 	python write_ortholog_fasta_from_multiple_aln.py <original "@" formated fasta files directory> <orthologs directory> <fasta file extension> <orthologs tree file extension> <output directory>
 	
 ##### With those you can align, clean, infer trees from final orthologs, and infer species trees using your preferred tools
-
  
 ##### If a supermatrix of clean alignment is needed. Once you have clean alignments, choose the minimal cleaned alignment length and minimal number of taxa of each ortholog to include in the supermatrix
 
