@@ -18,17 +18,17 @@ Yang, Y. and S.A. Smith. 2014. Orthology inference in non-model organisms using 
 python2.7 and python 3.9 or later 
 Because both python2 and python3 are currently required for this workflow, I highly recommend using Conda to manage you python installations. this makes it easy to switch between python2 and python3 environments. 
 
-[GNUparallel] 2018 version or later
+[GNUparallel](https://www.gnu.org/software/parallel/) 2018 version or later
 
 [hybpiper](https://github.com/mossmatters/HybPiper) Legacy version 1.3 (To run this pipeline with Hybpiper 2, see the [target enrichment orthology with hybpiper 2 wiki](https://github.com/benjamin-j-cooper/hybseq_target_enrichment_workflows/wiki/Target-Enrichment-Orthology-with-Hybpiper-2))
 
-[fastqc] v0.11.5 or later
+[fastqc](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) v0.11.5 or later
 
-[multiqc] v1.12 or later
+[multiqc](https://multiqc.info) v1.12 or later
 
-[trimmomatic] v0.39 or later
+[trimmomatic](http://www.usadellab.org/cms/?page=trimmomatic) v0.39 or later
 
-[samtools] v1.15 or later
+[samtools](https://www.htslib.org) v1.15 or later
 
 [TreeShrink](https://github.com/uym2/TreeShrink) 1.3.2 or later
 
